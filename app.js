@@ -10,7 +10,7 @@ $(document).ready(function() {
       logo: "terminal_ico.png"
     },
     languageDictionary: {
-      title: "Log me in"
+      title: "Log in"
     }
   });
 
