@@ -394,15 +394,7 @@
           <div class="inner">
             <div class="title">How does SshTo.net work?</div>
             <p class="definition">
-              SshTo.net provides a standard SSH server with modified PAM access control to allow easy reverse port forwarding. You can expose any port using openssh -R option and sshto.net service.
-            </p>
-          </div>
-        </li>
-        <li class="feature feature-block -vsmall -faq">
-          <div class="inner">
-            <div class="title">Does it work behind NAT?</div>
-            <p class="definition">
-              Yes. The client initiates a secure ssh connection to the SshTo.net service. As a standard ssh service - it is optimized to work from anywhere in the world.
+              SshTo.net provides a standard SSH server with modified PAM access control to allow easy reverse port forwarding. You request a random port on our servers that forwards to your machine local port.
             </p>
           </div>
         </li>
@@ -420,7 +412,7 @@
           <div class="inner">
             <div class="title">Can SshTo.net open a different local port from 22?</div>
             <p class="definition">
-              Yes. You can forward any port, including your web server. However, your web server will be at non-standard port and will only be able to serve a single page or file.
+              Yes. You can forward any port. For example, you can expose VNC, RDP or other "active" connections. The port will drop immediately after disconnect.
             </p>
           </div>
         </li>
@@ -430,6 +422,14 @@
             <div class="title">Can I download large files via sshto.net forwarding?</div>
             <p class="definition">
               No. We use a low TCP window to limit tranfer speeds. Also your session is limited to 20 min max and you are limited to 30 total hosts.
+            </p>
+          </div>
+        </li>
+        <li class="feature feature-block -vsmall -faq">
+          <div class="inner">
+            <div class="title">Do you have API?</div>
+            <p class="definition">
+              Not yet. But we are working on it.
             </p>
           </div>
         </li>
