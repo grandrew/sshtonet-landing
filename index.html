@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Remotely access your Linux box shell from anywhere in the world
+  via your web browser without DynDNS, VPN, Static IP or Port Forwarding. Sign up for free today">
+
+
+  <title>SshTo.net: Reverse SSH tunnel to access your computer</title>
+  <link href="files/home.css" rel="stylesheet" type="text/css">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="">
+  <link rel="icon" type="image/png" href="terminal.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="terminal.png" sizes="16x16">
+  <link rel="manifest" href="manifest.json">
+  <link rel="mask-icon" href="static/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="static/favicon/favicon.ico">
+  <meta name="apple-mobile-web-app-title" content="SSHto.net">
+  <meta name="application-name" content="SSHto.net">
+  <meta name="msapplication-config" content="static/favicon/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+  <!-- Auth0 lock script -->
+  <script src="//cdn.auth0.com/js/lock/10.3.0/lock.min.js"></script>
+  <script src="files/uwt.js" async=""></script>
+  <script src="auth0-variables.js"></script>
+  <script src="app.js"></script>
+</head>
+
+<body class="page-body">
+  <div class="wrap">
+    <div class="page-content -blue-texture">
+
+
+      <div class="inner page-header">
+
+        <a href="//www.sshto.net" class="logo">
+          <img src="terminal.png" alt="SshToNet logo">
+        </a>
+
+
+
+        <!-- login modal -->
+        <div class="generic-modal fade -login" id="login-modal" role="dialog" tabindex="-1" aria-labelledby="login-modal">
+          <div class="inner" role="document">
+            <div class="content">
+              <div class="body">
+
+
+                <div class="form-page">
+                  <div class="title">Sign in</div>
+
+
+
+                  <div>
+
+
+                      <div id="div_id_username" class="form-field -required">
+
+                        <input style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAALZJREFUOBFjYKAANDQ0rGWiQD9IqzgL0BQ3IKMXiB8AcSKQ/waIrYDsKUD8Fir2pKmpSf/fv3+zgPxfzMzMSbW1tbeBbAaQC+b+//9fB4h9gOwikCAQTAPyDYHYBciuBQkANfcB+WZAbPP37992kBgIUOoFBiZGRsYkIL4ExJvZ2NhAXmFgYmLKBPLPAfFuFhaWJpAYEBQC+SeA+BDQC5UQIQpJYFgdodQLLyh0w6j20RCgUggAAEREPpKMfaEsAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;"
+                          class="emailinput" id="id_username" name="username" placeholder="e.g., address@example.com" type="email">
+                        <label for="id_username" class="label">
+                Type your email above<span class="asteriskField">*</span>
+            </label>
+
+                      </div>
+
+
+
+                      <div id="div_id_password" class="form-field -required">
+
+
+
+
+                        <input style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAALZJREFUOBFjYKAANDQ0rGWiQD9IqzgL0BQ3IKMXiB8AcSKQ/waIrYDsKUD8Fir2pKmpSf/fv3+zgPxfzMzMSbW1tbeBbAaQC+b+//9fB4h9gOwikCAQTAPyDYHYBciuBQkANfcB+WZAbPP37992kBgIUOoFBiZGRsYkIL4ExJvZ2NhAXmFgYmLKBPLPAfFuFhaWJpAYEBQC+SeA+BDQC5UQIQpJYFgdodQLLyh0w6j20RCgUggAAEREPpKMfaEsAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;"
+                          class="textinput textInput" id="id_password" name="password" placeholder="e.g., ••••••••••" type="password">
+
+
+                        <label for="id_password" class="label">
+                Type your password above<span class="asteriskField">*</span>
+            </label>
+
+
+
+                      </div>
+
+                      <input name="next" value="" type="hidden">
+
+
+                      <input name="submit" value="Sign in" class="submit submitButton -call-to-action text-button -submit" id="submit-id-submit" type="submit">
+
+
+
+
+
+
+                      <div class="ajaxform-status" style="display: none"></div>
+                  </div>
+
+                  <a class="reset" href="https://www.dataplicity.com/profile/passwordreset/">I forgot my password</a>
+                </div>
+
+              </div>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+            </div>
+          </div>
+        </div>
+        <!-- end modal -->
+        <a href="#" id="login-button-auth" class="text-button -header" data-toggle="modal" >
+                  Sign in
+                </a>
+
+
+
+      </div>
+
+      <div class="inner">
+        <div class="home-title">
+          <div class="pretitle">
+            <img class="clock" src="files/time.png"> Just sign in and
+          </div>
+          <h1 class="title">Forward your SSH port with single command.</h1>
+        </div>
+
+        <div class="signup-content" id="registration-form">
+          <div class="form bullet-holder">
+            <div class="bullet -bg-success -text">1</div>
+            <div class="inner">
+
+
+
+
+
+
+              <div>
+
+                  <!--<div id="div_id_email" class="form-field -required">-->
+
+                  <!--  <input class="emailinput" id="id_email" maxlength="511" name="email" placeholder="Enter your email address" type="email">-->
+
+                  <!--</div>-->
+
+                  <button name="submit" value="Sign up" type="submit" class="submit submitButton -call-to-action text-button -submit" id="login-button-auth2" style="    margin-left: auto;    margin-right: auto;  display: block;">Sign up</button>
+
+                  <div class="ajaxform-status" style="display: none"></div>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="alternative" id="altlog">
+            or <a href="#" id="sginin-link">Sign in</a> if you've already got an account
+          </div>
+          <div class="terminal web-terminal">
+            <div class="inner terminal-inner">
+              <div class="terminal-header">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                &nbsp;Forward your Linux host port 22
+              </div>
+              <div class="terminal-body -floating-pi -showcase">
+                <div class="content bullet-holder">
+                  <div class="bullet -gutter -bg-success -text">2</div>
+                  <div style="display: none;" id="typed-strings">
+                    <p><span>ssh -l <span class="youremail">your@email.com</span> -NR 1:0:0:22 sshto.net &</span></p>
+                  </div>
+                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="youremail">your@email.com</span> -NR 1:0:0:22 sshto.net &</span></span>
+                </div>
+                <div class="helptext bullet-holder">
+                  <div class="bullet -image-info -gutter-mid"></div>
+                  Copy the line of code into your terminal to activate your remote shell. <span style="font-weight: bold">-NR &nbsp;1:</span> stands for machine number <span style="font-weight: bold">1</span>. Use 2,3,4... for each of your hosts. (This is a standard ssh feature called <a style="color: white" href="http://unix.stackexchange.com/questions/46235/how-does-reverse-ssh-tunneling-work">reverse port forwarding</a>)
+                </div>
+                <div class="buttons">
+                  <a href="https://www.dataplicity.com/post-register/" rel="nofollow" class="button text-button -submit">
+                Done
+              </a>
+                  <a href="https://www.dataplicity.com/devices/" rel="nofollow" class="button text-button -secondary">
+                Do it later
+              </a>
+                  <a href="#" class="button text-button -tertiary" data-toggle="modal" data-target="#source-modal">
+                View source
+              </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="alternative">
+            
+          </div>
+          
+          <div class="terminal web-terminal" id="hostslist" style="display:none">
+            <div class="inner terminal-inner">
+              <div class="terminal-header">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                &nbsp;Access your shell
+              </div>
+              <div class="terminal-body -floating-pi -showcase">
+                <div class="content bullet-holder">
+                  <div class="bullet -gutter -bg-success -text">3</div>
+                  <div style="display: none;" id="typed-strings">
+                    <p><span>ssh -l <span class="">your_login</span>sshto.net -p <span class="portcon">PORT</span></span></p>
+                  </div>
+                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="youremail">your_login</span> sshto.net -p <span class="portcon">PORT</span></span></span>
+                </div>
+                <div class="helptext bullet-holder">
+                  <div class="bullet -image-info -gutter-mid"></div>
+                  Click on your machine IDs below to request external port number for 20&nbsp;minutes.
+                </div>
+                <div class="buttons" style="display: flex" id="refresh">
+                  <div style="display: inline; margin-top: 1rem;" id="comps">
+                     
+              </div><br/>
+              <a href="#" rel="nofollow" class="button text-button -submit" id="refresh-machines">
+                Refresh online machines
+              </a>
+              
+
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="generic-modal -script-source" id="source-modal" role="dialog" tabindex="-1" aria-labelledby="source-modal">
+        <div class="inner" role="document">
+          <div class="content">
+            <div class="body dialog-box">
+              <div class="title">
+                Source code
+              </div>
+
+              <div class="explanation">
+                This is the ssh command with reverse port forward.
+              </div>
+
+              <div class="terminal web-terminal">
+                <div class="inner terminal-inner">
+                  <div class="terminal-header">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    &nbsp;
+                  </div>
+                  <div class="terminal-body">
+                    <div class="content">
+                      <pre class="code script-source" id="install_script">
+                  </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="buttons">
+                <a class="button text-button -icon-backarrow -info" data-dismiss="modal">
+              Back
+            </a>
+              </div>
+
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+    <div class="page-content -rule -home">
+      <div class="inner">
+        <div class="home-title -dark">
+          <h1 class="title">A standard way to access your shell behind firewall.</h1>
+          <div class="tool-images">
+            <div class="tool">
+              <img src="files/ubuntu.png">
+            </div>
+            <div class="terminal">
+              <img src="files/putty.jpg">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+<!--
+    <div class="page-content -stripe -home">
+      <div class="inner">
+        <div class="book-spread">
+          <div class="page book-page -left">
+            <h2 class="title">What you need?</h2>
+            <div class="grid block-grid -large">
+              
+              <div class="block icon-block -large">
+                <div class="inner">
+                  <div class="icon">
+                    <img src="files/cloud.svg">
+                  </div>
+                  <span class="title">INTERNET</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="page book-page -right">
+            <h2 class="title">What you don't need</h2>
+            <div class="grid block-grid -small">
+              <div class="block icon-block -small">
+                <div class="inner">
+                  <div class="icon">
+                    <img src="files/port-forward.png">
+                  </div>
+                  <span class="title">PORT FORWARDING</span>
+                </div>
+              </div>
+              <div class="block icon-block -small">
+                <div class="inner">
+                  <div class="icon">
+                    <img src="files/vpn.png">
+                  </div>
+                  <span class="title">VPN</span>
+                </div>
+              </div>
+              <div class="block icon-block -small">
+                <div class="inner">
+                  <div class="icon">
+                    <img src="files/static-ip.png">
+                  </div>
+                  <span class="title">STATIC IPs</span>
+                </div>
+              </div>
+              <div class="block icon-block -small">
+                <div class="inner">
+                  <div class="icon">
+                    <img src="files/dyndns.png">
+                  </div>
+                  <span class="title">DynDNS</span>
+                </div>
+              </div>
+              <div class="block icon-block -small">
+                <div class="inner">
+                  <div class="icon">
+                    <img src="files/time-home.png">
+                  </div>
+                  <span class="title">LOTS OF TIME</span>
+                </div>
+              </div>
+              <div class="block icon-block -small">
+                <div class="inner">
+                  <div class="icon">
+                    <img src="files/patience.png">
+                  </div>
+                  <span class="title">LOTS OF PATIENCE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <div class="page-content -dark -home">
+      <!--<div class="faq-header">-->
+      <!--  <h2>All questions answered!</h2>-->
+      <!--</div>-->
+      <ul class="inner feature-trio">
+        <li class="feature feature-block -vsmall -faq">
+          <div class="inner">
+            <div class="title">How does SshTo.net work?</div>
+            <p class="definition">
+              SshTo.net provides a standard SSH server with modified PAM access control to allow easy reverse port forwarding. You can expose any port using openssh -R option and sshto.net service.
+            </p>
+          </div>
+        </li>
+        <li class="feature feature-block -vsmall -faq">
+          <div class="inner">
+            <div class="title">Does it work behind NAT?</div>
+            <p class="definition">
+              Yes. The client initiates a secure ssh connection to the SshTo.net service. This means that it works most places where there are firewalls, NAT or other network obstructions in place.
+            </p>
+          </div>
+        </li>
+        <li class="feature feature-block -vsmall -faq">
+          <div class="inner">
+            <div class="title">Can I enable it at boot time?</div>
+            <p class="definition">
+              Sure. Just put it into your rc.local file (or any other place your distribution recommends). Also remember to put the code inside <span style="font-family: monospace; background-color: lightgray">while true; do &lt;code here&gt;; done &</span> code block.
+            </p>
+          </div>
+        </li>
+      </ul>
+      <ul class="inner feature-trio">
+        <li class="feature feature-block -vsmall -faq">
+          <div class="inner">
+            <div class="title">Can SshTo.net open a different local port from 22?</div>
+            <p class="definition">
+              Yes. You can forward any port, including your web server. However, your web server will be at non-standard port and will only be able to serve a single page or file.
+            </p>
+          </div>
+        </li>
+
+        <li class="feature feature-block -vsmall -faq">
+          <div class="inner">
+            <div class="title">Can I download large files via sshto.net forwarding?</div>
+            <p class="definition">
+              No. We use a low TCP window to limit tranfer speeds. Also your session is limited to 20 min max and you are limited to 30 total hosts.
+            </p>
+          </div>
+        </li>
+        <li class="feature feature-block -vsmall -faq">
+          <div class="inner">
+            <div class="title">Can I have my quota/limits raised?</div>
+            <p class="definition">
+              Sure. Write us at info@sshto.net for commercial enquiries.
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="page-content -home">
+      <ul class="inner feature-trio">
+        <li class="feature feature-block -small -globe">
+          <div class="inner">
+            <div class="title">Works anywhere</div>
+            <p class="definition">
+              If your Linux box, server, Mac or IoT device is connected to the internet, you can access it via SshTo.net. You can even connect to devices behind firewalls without needing complex network configurations.
+            </p>
+          </div>
+        </li>
+        <li class="feature feature-block -small -browser">
+          <dl class="inner">
+            <dt class="title">A standard internet service</dt>
+            <dd class="definition">
+              SshTo.net uses standard SSH protocol and standard proven tools to enable ssh port forwarding. SshTo.net is "ssh reverse port forwarding done right".
+            </dd>
+          </dl>
+        </li>
+        <li class="feature feature-block -small -lock">
+          <dl class="inner">
+            <dt class="title">Simple and secure</dt>
+            <dd class="definition">
+              SshTo.net does not receive any access to your machine - your host is still protected by one of the most secure software tools on the planet - SSH!
+            </dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-content -blue-texture -home">
+    <div class="inner">
+      <div class="home-title">
+        <h1 class="title">Sign up for free, now!</h1>
+        <p class="bottom-signup">
+          <input name="submit" value="Start" class="-call-to-action text-button -submit" id="signup-bottom" type="button">
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="page-content -slim">
+    <div class="inner page-footer">
+      <img class="logo" src="terminal.png" alt="Dataplicity logo">
+      <span class="copy">© JSX Exchange Ltd.</span>
+      <ul class="links footer-links">
+        <li class="link"><a href="https://jsx.exchange" target="_blank" rel="noopener">Service by jsx.exchange</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <script src="files/analytics.js" async=""></script>
+  <script type="text/javascript" src="files/main.js" charset="utf-8"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      $('#signup-bottom').on('click', function() {
+        $('html, body').animate({
+          scrollTop: 0
+        }, 'slow', function() {
+          $('#id_email').focus()
+        });
+      });
+
+      $('#typed').typed({
+        typeSpeed: 0,
+        stringsElement: $('#typed-strings'),
+        showCursor: false
+      });
+    });
+  </script>
+
+
+  <script>
+    // google analytics
+  </script>
+
+
+
+  <!-- SessionCam Client Integration v6.0 -->
+  <script type="text/javascript">
+    //<![CDATA[
+    //sessioncam recorder
+    //]]>
+  </script>
+  <!-- End SessionCam -->
+
+
+
+  <script>
+    //twitter
+  </script>
+
+
+
+
+
+  <script type="text/javascript">
+    // mixpanel
+  </script>
+
+
+
+
+  <script type="text/javascript" src="files/adsct.js"></script>
+</body>
+
+</html>
