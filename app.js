@@ -7,7 +7,7 @@ $(document).ready(function() {
       params: { scope: 'openid email' } //Details: https://auth0.com/docs/scopes
     },
     theme: {
-      logo: "terminal.png"
+      logo: "terminal_ico.png"
     },
     languageDictionary: {
       title: "Log me in"
