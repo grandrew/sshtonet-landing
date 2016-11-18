@@ -120,6 +120,7 @@ $(document).ready(function() {
         $("#login-button-auth").hide();
         $("#altlog").hide();
         $(".form").hide();
+        $(".promoblock").hide();
         $("#hostslist").show();
         $(".pretitle").text("Hi, "+profile.name+"!")
         
