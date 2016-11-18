@@ -33,6 +33,10 @@ $(document).ready(function() {
     e.preventDefault();
     lock.show();
   });
+  $('#sginin-link2').click(function(e) {
+    e.preventDefault();
+    lock.show();
+  });
 
   $('.btn-logout').click(function(e) {
     e.preventDefault();
@@ -120,6 +124,7 @@ $(document).ready(function() {
         $("#login-button-auth2").hide();
         $("#login-button-auth").hide();
         $("#altlog").hide();
+        $("#altlog2").hide();
         $(".form").hide();
         $(".promoblock").hide();
         $("#hostslist").show();
