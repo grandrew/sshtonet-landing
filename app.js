@@ -33,6 +33,10 @@ $(document).ready(function() {
     e.preventDefault();
     lock.show();
   });
+  $('#sginin-link2').click(function(e) {
+    e.preventDefault();
+    lock.show();
+  });
 
   $('.btn-logout').click(function(e) {
     e.preventDefault();
