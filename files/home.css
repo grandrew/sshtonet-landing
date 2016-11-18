@@ -266,8 +266,8 @@ body {
     font-family: "Raleway", "Helvetica", "Arial", sans-serif;
     font-size: 1rem;
     line-height: 1.5;
-    color: #373a3c;
-    background-color: #f3f3f3
+    color: #333333;
+    background-color: #f3f3f3;
 }
 
 [tabindex="-1"]:focus {
@@ -329,14 +329,14 @@ blockquote {
 }
 
 a {
-    color: #0275d8;
-    text-decoration: none
+    color: #E95420;
+    text-decoration: none;
 }
 
 a:focus,
 a:hover {
-    color: #014c8c;
-    text-decoration: underline
+    color: #ED764D;
+    text-decoration: underline;
 }
 
 a:focus {
@@ -2951,7 +2951,7 @@ a.text-danger:hover {
 }
 
 .page-content.-dark {
-    background-color: #f3f3f3
+    background-color: #E6E4E2;
 }
 
 .page-content.-stripe {
@@ -2959,7 +2959,7 @@ a.text-danger:hover {
 }
 
 .page-content.-blue-texture {
-    background: #AEA79F;
+    /* background: #F6F6F5; */
     background-position: 50% 50%;
     background-size: 100%;
     flex-grow: 0;
@@ -3935,7 +3935,8 @@ a.text-danger:hover {
 .feature-block>.inner>.title {
     margin-bottom: .5em;
     font-size: 1.125em;
-    font-weight: 700
+    font-weight: 700;
+    color: #E95420;
 }
 
 .feature-trio {
@@ -4025,7 +4026,7 @@ a.text-danger:hover {
     margin: 0 auto 1em;
     font-size: 1.125rem;
     font-family: "Raleway", "Helvetica", "Arial", sans-serif;
-    font-weight: 200
+    font-weight: 300
 }
 
 .home-title>.pretitle>.clock {
@@ -4153,14 +4154,14 @@ a.text-danger:hover {
 }
 
 .signup-content>.alternative {
-    color: white;
+    color: #373a3c;
     margin: 2em 0;
-    text-align: center
+    text-align: center;
 }
 
 .signup-content>.alternative>a {
-    color: #f3c409;
-    font-weight: bold
+    color: #2C001E;
+    font-weight: bold;
 }
 
 .signup-content.-complete>.alternative {
@@ -4187,7 +4188,7 @@ a.text-danger:hover {
 .text-button {
     border: 0;
     border-radius: 6px;
-    color: white;
+    color: #373a3c;
     display: inline-block;
     font-family: "Raleway", "Helvetica", "Arial", sans-serif;
     font-size: 1rem;
@@ -4195,13 +4196,13 @@ a.text-danger:hover {
     padding: 11px 32px;
     text-align: center;
     text-decoration: none;
-    transition: 0.25s ease-out
+    transition: 0.25s ease-out;
 }
 
 .text-button:hover,
 .text-button:active,
 .text-button:focus {
-    color: white
+    color: #000;
 }
 
 .text-button.-cancel {
@@ -4228,8 +4229,8 @@ a.text-danger:hover {
 }
 
 .text-button.-header {
-    border: 1px solid #fff;
-    font-weight: normal
+    border: 1px solid #373a3c;
+    font-weight: normal;
 }
 
 .text-button.-tertiary {
@@ -4271,15 +4272,15 @@ a.text-danger:hover {
 }
 
 .text-button.-call-to-action {
-    background-color: #f3c409;
-    color: #252525;
+    /* background-color: #f3c409; */
+    color: white;
     font-weight: normal;
-    margin-top: 0
+    margin-top: 0;
 }
 
 .text-button.-call-to-action:active,
 .text-button.-call-to-action:hover {
-    background-color: #f9dc69
+    background-color: #ED764D;
 }
 
 .text-button.-icon-backarrow::before,
