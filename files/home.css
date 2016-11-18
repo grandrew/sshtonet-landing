@@ -3512,6 +3512,7 @@ a.text-danger:hover {
         flex: 1;
         margin-right: 0.5em;
         margin-left: 0.5em;
+        text-decoration: none;
     }
 }
 
@@ -4188,7 +4189,7 @@ a.text-danger:hover {
 .text-button {
     border: 0;
     border-radius: 6px;
-    color: #373a3c;
+    color: white;
     display: inline-block;
     font-family: "Raleway", "Helvetica", "Arial", sans-serif;
     font-size: 1rem;
@@ -4202,7 +4203,7 @@ a.text-danger:hover {
 .text-button:hover,
 .text-button:active,
 .text-button:focus {
-    color: #000;
+    color: white;
 }
 
 .text-button.-cancel {
@@ -4268,7 +4269,8 @@ a.text-danger:hover {
 
 .text-button.-submit:hover,
 .text-button.-submit:active {
-    background-color: #1aa878
+    background-color: #ED764D;
+    text-decoration: none;
 }
 
 .text-button.-call-to-action {
