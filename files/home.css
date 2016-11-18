@@ -2959,10 +2959,18 @@ a.text-danger:hover {
 }
 
 .page-content.-blue-texture {
-    background: url("../img/bg-top_v5.9c8b226667ac.png"), linear-gradient(120deg, #3981a1 0%, #225881 100%);
+    background: #AEA79F;
     background-position: 50% 50%;
     background-size: 100%;
-    flex-grow: 0
+    flex-grow: 0;
+    padding: 2.25em 1.6875em;
+    background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+    background-image: -moz-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+    background-image: -ms-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+    background-image: repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+    -webkit-background-size: 3px 3px;
+    -moz-background-size: 3px 3px;
+    background-size: 3px 3px;
 }
 
 @media (max-width: 991px) {
@@ -3400,12 +3408,12 @@ a.text-danger:hover {
 }
 
 .terminal-body {
-    background-color: #252525;
+    background-color: #300a24;
     border-radius: 0 0 0.5em 0.5em;
     font-family: "Source Code Pro", fixed;
     text-align: left;
     padding-right: 0;
-    position: relative
+    position: relative;
 }
 
 .terminal-body>iframe {
@@ -3422,9 +3430,9 @@ a.text-danger:hover {
 }
 
 .terminal-body.-showcase {
-    border-left: 50px solid #373a3c;
+    border-left: 50px solid #411934;
     word-wrap: break-word;
-    padding-left: 0
+    padding-left: 0;
 }
 
 .terminal-body.-showcase>.content {
@@ -3521,12 +3529,12 @@ a.text-danger:hover {
 
 .terminal-header {
     align-items: center;
-    background-color: #d7d7d7;
+    background-color: #333333;
     border-radius: 0.5em 0.5em 0em 0em;
-    color: #4a4a4a;
+    color: #eee;
     display: flex;
     text-align: left;
-    padding: .5em 1em
+    padding: .5em 1em;
 }
 
 .terminal-header>.circle {
@@ -3801,8 +3809,8 @@ a.text-danger:hover {
 }
 
 .bullet-holder>.bullet.-bg-success {
-    background-color: #3cb878;
-    color: white
+    background-color: #E95420;
+    color: white;
 }
 
 .bullet-holder>.bullet.-text {
@@ -4008,9 +4016,9 @@ a.text-danger:hover {
 }
 
 .home-title {
-    color: white;
+    /* color: white; */
     text-align: center;
-    margin: 3em auto
+    margin: 3em auto;
 }
 
 .home-title>.pretitle {
@@ -4252,9 +4260,9 @@ a.text-danger:hover {
 }
 
 .text-button.-submit {
-    background-color: #3cb878;
+    background-color: #E95420;
     height: 46px;
-    margin-top: 10px
+    margin-top: 10px;
 }
 
 .text-button.-submit:hover,
