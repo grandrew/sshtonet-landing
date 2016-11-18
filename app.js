@@ -13,6 +13,11 @@ $(document).ready(function() {
       title: "Log in"
     }
   });
+  
+  var logout = function() {
+    localStorage.removeItem('id_token');
+    window.location.href = "/";
+  };
 
   $('#login-button-auth').click(function(e) {
     e.preventDefault();
@@ -65,6 +70,7 @@ $(document).ready(function() {
       lock.getProfile(id_token, function (err, profile) {
         if (err) {
           console.log('There was an error getting the profile: ' + err.message);
+          logout();
         }
         // Display user information
         show_profile_info(profile);
@@ -120,10 +126,7 @@ $(document).ready(function() {
         refresh_machines();
   };
 
-  var logout = function() {
-    localStorage.removeItem('id_token');
-    window.location.href = "/";
-  };
+  
 
   $('#refresh-machines').click(function(e) {
     e.preventDefault();
