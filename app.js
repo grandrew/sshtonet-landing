@@ -79,6 +79,7 @@ $(document).ready(function() {
   };
   
   var get_port = function(e) {
+    e.preventDefault();
     var mID = parseInt(e.target.id);
     var profile = JSON.parse(localStorage.getItem('profile'));
     var id_token = localStorage.getItem('id_token');
