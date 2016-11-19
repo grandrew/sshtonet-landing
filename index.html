@@ -7,11 +7,10 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="Remotely access your Linux box shell from anywhere in the world
-  via your web browser without DynDNS, VPN, Static IP or Port Forwarding. Sign up for free today">
+  <meta name="description" content="Remotely access your Mac, Router, Raspberry PI, Ubuntu, Servers .. anything from anywhere in the world using standard SSH. Sign up for free today">
 
 
-  <title>SshTo.net: Reverse SSH port forwarding public service</title>
+  <title>SshTo.net: Zero-effort reverse port forwarding public SSH service</title>
   <link href="files/home.css" rel="stylesheet" type="text/css">
 
   <link rel="apple-touch-icon" sizes="180x180" href="">
@@ -178,13 +177,13 @@
                 <div class="content bullet-holder">
                   <div class="bullet -gutter -bg-success -text">2</div>
                   <div style="display: none;" id="typed-strings">
-                    <p><span>ssh -l <span class="youremail">your@email.com</span> -NR 1:0:0:22 sshto.net</span></p>
+                    <p><span>ssh -l <span class="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</span></p>
                   </div>
-                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="youremail">your@email.com</span> -NR 1:0:0:22 sshto.net</span></span>
+                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</span></span>
                 </div>
                 <div class="helptext bullet-holder">
                   <div class="bullet -image-info -gutter-mid"></div>
-                  Copy the line of code into your terminal to activate your remote shell. <span style="font-weight: bold">-NR &nbsp;1:</span> stands for machine number <span style="font-weight: bold">1</span>. Use 2,3,4... for each of your hosts. (This is a standard ssh feature called <a style="color: white" href="http://unix.stackexchange.com/questions/46235/how-does-reverse-ssh-tunneling-work">reverse port forwarding</a>)
+                  Copy the line of code into your terminal to activate your remote shell. <span style="font-weight: bold">-R &nbsp;1:</span> stands for machine number <span style="font-weight: bold">1</span>. Use 2,3,4... for each of your hosts. (This is a standard ssh feature called <a style="color: white" href="http://unix.stackexchange.com/questions/46235/how-does-reverse-ssh-tunneling-work">reverse port forwarding</a>)
                 </div>
                 <div class="buttons">
                   <a href="" rel="nofollow" class="button text-button -submit">
