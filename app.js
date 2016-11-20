@@ -207,6 +207,9 @@ $(document).ready(function() {
         $("#hostslist").show();
         $(".pretitle").text("Hi, "+profile.name+"!");
         
+        var id_token = localStorage.getItem('id_token');
+        $(".id_token").text(id_token);
+        
         document.machine_cards = profile.user_metadata;
         if(! document.machine_cards) document.machine_cards = {};
         

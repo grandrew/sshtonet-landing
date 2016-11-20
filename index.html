@@ -435,7 +435,7 @@
           <div class="inner">
             <div class="title">Do you have API?</div>
             <p class="definition">
-              Not yet. But we are working on it.
+              Not yet. But we are working on it. <br/><br/> Meanwhile, you can use <a href="#api_workaround" rel="modal:open">your JWT token</a> to make calls to our JSONP api.
             </p>
           </div>
         </li>
@@ -563,7 +563,9 @@
 
   <script type="text/javascript" src="files/adsct.js"></script>
   
-  
+<div id="api_workaround" style="display:none;">
+    You can send request like <pre>wget -q -O - 'https://sshto.net/<span class="youremail">your_email</span>/1?token=<span class="id_token">LOG_IN_TO_SEE_YOUR_TOKEN_HERE</span>'</pre> where <pre>1</pre> is your machine ID, to get JSON of your opened port of the format <pre>{ "port": 34567 }</pre>
+</div>
   
 </body>
 

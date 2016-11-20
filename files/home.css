@@ -1834,7 +1834,7 @@ button.close {
     left: 0;
     z-index: 1050;
     display: none;
-    overflow: hidden;
+    /*overflow: hidden;*/
     outline: 0;
     -webkit-overflow-scrolling: touch
 }
