@@ -225,4 +225,5 @@ $(document).ready(function() {
 
   retrieve_profile();
   setTimeout(retrieve_profile,3500);
+  if(!$("#betaRibbon").length) $('<div class="ribbon" id="betaRibbon"><span>BETA</span></div>').appendTo(document.body);
 });
