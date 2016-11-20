@@ -2,6 +2,21 @@
 
 $(document).ready(function() {
 
+  (function ($) {
+      $.fn.wysiwygEvt = function () {
+          return this.each(function () {
+              var $this = $(this);
+              var htmlold = $this.html();
+              $this.bind('blur keyup paste copy cut mouseup', function () {
+                  var htmlnew = $this.html();
+                  if (htmlold !== htmlnew) {
+                      $this.trigger('change')
+                  }
+              })
+          })
+      }
+  })(jQuery);
+
   var lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN, {
     auth: {
       params: { scope: 'openid email' } //Details: https://auth0.com/docs/scopes
@@ -42,6 +57,48 @@ $(document).ready(function() {
     e.preventDefault();
     logout();
   });
+  $(".termeditable").wysiwygEvt();
+  $(".termeditable").change(function(e) {
+      var login = $("#m-login").text();
+      var name = $("#m-name").text();
+      var mid = $("#m-id").text();
+      if(parseInt(mid)) {
+        var card_id = mid+"comp";
+        $("#"+card_id+" .m-card-name").text(name);
+        $("#"+card_id+" .m-card-user").text(login);
+      }
+  });
+  
+  var save_card = function (e) {
+      var login = $("#m-login").text();
+      var name = $("#m-name").text();
+      var mid = $("#m-id").text();
+      if(parseInt(mid)) {
+        if(name.length == 0) name = "edit_me";
+        if(login.length == 0) login = "edit_me";
+        // TODO HERE: save profile by calling API
+        // TODO HERE: update document.machine_cards too
+        var new_ob = {"name": name, "user": login };
+        var meta_id = mid+"comp";
+        if(document.machine_cards[meta_id] && JSON.stringify(document.machine_cards[meta_id]) === JSON.stringify(new_ob) ) return;
+        document.machine_cards[mid+"comp"] = new_ob;
+        var id_token = localStorage.getItem('id_token');
+        var eml = JSON.parse(localStorage.getItem('profile')).email;
+        $.ajax({
+              url: "https://sshto.net/profile/"+eml,
+              jsonp: "callback",
+              dataType: "jsonp",
+              data: {
+                "token": id_token,
+                "metadata": JSON.stringify(document.machine_cards)
+              }
+        });
+      }
+  };
+  
+  $(".termeditable").blur(save_card);
+  $(".termeditable").bind("enterKey", save_card);
+  
   
   lock.on("authenticated", function(authResult) {
     lock.getProfile(authResult.idToken, function(error, profile) {
@@ -82,9 +139,9 @@ $(document).ready(function() {
     }
   };
   
-  var get_port = function(e) {
-    e.preventDefault();
-    var mID = parseInt(e.target.id);
+  var get_port = function(mID) {
+    // e.preventDefault();
+    // var mID = parseInt(e.target.id);
     var profile = JSON.parse(localStorage.getItem('profile'));
     var id_token = localStorage.getItem('id_token');
     console.log("Machine ID "+mID);
@@ -95,32 +152,52 @@ $(document).ready(function() {
           success: function( response ) {
             console.log( response ); // server response
             $(".portcon").text(response.port);
-            $("#"+mID+"comp").text(mID+":"+response.port);
+            var card_id = mID+"comp";
+            $("#"+card_id+" .m-card-port").text(response.port);
+            $("#m-id").text(mID);
+            $("#m-name").text($("#"+card_id+" .m-card-name").text());
+            $("#m-login").text($("#"+card_id+" .m-card-user").text());
           }
         });
   };
   
+  var create_get_port_call = function(mID) {
+      return function(e) {e.preventDefault(); get_port(mID);};
+  };
+  
   var refresh_machines = function() {
     var profile = JSON.parse(localStorage.getItem('profile'));
-    $("#comps").html("");
+    $("#idlist").html("");
     var id_token = localStorage.getItem('id_token');
     $.ajax({
           url: "https://sshto.net/"+profile.email+"?token="+id_token,
           jsonp: "callback",
           dataType: "jsonp",
           success: function( response ) {
+            var mid;
             console.log( response ); // server response
             for(var i=0; i<response.IDs.length; i++) {
-              $("#comps").append(' <a href="#" rel="nofollow" class="button text-button -secondary" id="'+response.IDs[i]+'comp" style="font-family: monospace;"> '+response.IDs[i]+' </a>');
-              $("#"+response.IDs[i]+"comp").click(get_port);
+              // $("#comps").append(' <a href="#" rel="nofollow" class="button text-button -secondary" id="'+response.IDs[i]+'comp" style="font-family: monospace;"> '+response.IDs[i]+' </a>');
+              mid = response.IDs[i];
+              var card_name = "name_edit_me";
+              var card_user = "user_edit_me";
+              var meta_id = mid+"comp";
+              if(document.machine_cards && meta_id in document.machine_cards) {
+                card_name = document.machine_cards[meta_id].name;
+                card_user = document.machine_cards[meta_id].user;
+              }
+              $("#idlist").append('<a href="#" rel="nofollow" class="button text-button -secondary mcard" id="'+mid+'comp"> <div>'+mid+'</div><div><div class="m-card-name">'+card_name+'</div> <div>user: <span class="m-card-user">'+card_user+'</span></div><div>port: <span class="m-card-port"><span style="color: gray">click to update</span></span></div></div></a>');
+              // $("#"+response.IDs[i]+"comp").click(get_port);
+              var fc = create_get_port_call(mid);
+              $("#"+mid+"comp").click(fc);
             }
           }
         });
   };
 
   var show_profile_info = function(profile) {
-        var eml = JSON.parse(localStorage.getItem('profile')).email
-        $(".youremail").text(eml);
+        // var eml = JSON.parse(localStorage.getItem('profile')).email;
+        $(".youremail").text(profile.email);
         $("#login-button-auth2").hide();
         $("#login-button-auth").hide();
         $("#altlog").hide();
@@ -128,7 +205,10 @@ $(document).ready(function() {
         $(".form").hide();
         $(".promoblock").hide();
         $("#hostslist").show();
-        $(".pretitle").text("Hi, "+profile.name+"!")
+        $(".pretitle").text("Hi, "+profile.name+"!");
+        
+        document.machine_cards = profile.user_metadata;
+        if(! document.machine_cards) document.machine_cards = {};
         
         refresh_machines();
   };

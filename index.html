@@ -32,6 +32,8 @@
 
   <script src="//use.fontawesome.com/4ccd08ab6a.js"></script>
   <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="jquery.modal.min.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="jquery.modal.css" type="text/css" media="screen" />
   <!-- Auth0 lock script -->
   <script src="//cdn.auth0.com/js/lock/10.3.0/lock.min.js"></script>
   <script src="files/uwt.js" async=""></script>
@@ -218,9 +220,9 @@
                 <div class="content bullet-holder">
                   <div class="bullet -gutter -bg-success -text">3</div>
                   <div style="display: none;" id="typed-strings">
-                    <p><span>ssh -l <span class="">your_login</span>sshto.net -p <span class="portcon">PORT</span></span></p>
+                    <!--<p><span>ssh -l <span class="">your_login</span>sshto.net -p <span class="portcon">PORT</span></span></p>-->
                   </div>
-                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="youremail">your_login</span> sshto.net -p <span class="portcon">PORT</span></span></span>
+                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="m-login" contentEditable="true" class="termeditable">your_login</span> sshto.net -p <span class="portcon">PORT</span> <span class="terminal-comment"># <span id="m-id">N</span>: <span id="m-name" contentEditable="true" class="termeditable">machine_name</span></span>&nbsp;</span></span>
                 </div>
                 <div class="helptext bullet-holder">
                   <div class="bullet -image-info -gutter-mid"></div>
@@ -233,7 +235,11 @@
               <a href="#" rel="nofollow" class="button text-button -submit yellow-button" id="refresh-machines">
                 <i class="fa fa-refresh" aria-hidden="true"></i> Refresh online machines
               </a>
-              
+            
+                </div>
+                <div class="buttons" style="display: block" id="idlist">
+                
+                  <a href="#" rel="nofollow" class="button text-button -secondary mcard" id="TESTID"> <div>12</div><div><div>macbook</div> <div>user: realgrandrew</div><div>port: <span style="color: gray">click to update</span></div></div></a> 
 
                 </div>
               </div>
@@ -556,6 +562,9 @@
 
 
   <script type="text/javascript" src="files/adsct.js"></script>
+  
+  
+  
 </body>
 
 </html>

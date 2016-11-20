@@ -4368,3 +4368,44 @@ a.text-danger:hover {
 
 
 /*# sourceMappingURL=home.css.map */
+
+.mcard {
+    margin-right: 1em;
+    min-width: 16em;
+    padding-left: 1em
+}
+
+.mcard>div:nth-child(1) {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    padding-right: 0em;
+    font-size: 2em;
+    margin-top: -1em;
+    border-right: 1px solid gray;
+    line-height: 1em;
+    width: 2em
+}
+
+.mcard>div:nth-child(2) {
+    display: inline-block;
+    font-size: 0.7em;
+    font-weight: normal;
+    text-align: left;
+    padding-left: 1em;
+    width: 11em;
+}
+
+.mcard > div:nth-child(2) > div:nth-child(1) {
+    font-weight: bold;   
+}
+
+.terminal-comment {
+    color: #999;
+}
+
+.termeditable:hover {
+    background-color: #411934;
+    border-radius: 4px;
+}
+
