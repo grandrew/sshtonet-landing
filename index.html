@@ -302,6 +302,7 @@
       <div class="inner">
         <div class="home-title -dark">
           <h1 class="title">A standard way to access your shell behind firewall.</h1>
+          <span class="fa-icon"><i class="fa fa-linux" aria-hidden="true"></i> <img class="fa-icon" src="files/freebsd_icon.png"/> <img class="fa-icon" src="files/rpi2_icon.png"/> <img class="fa-icon" src="files/arduino_icon.png"/> <i class="fa fa-apple" aria-hidden="true"> </i> <i class="fa fa-windows" aria-hidden="true"></i> <i class="fa fa-microchip" aria-hidden="true"></i> <i class="fa fa-cloud" aria-hidden="true"></i> <i class="fa fa-thermometer-half" aria-hidden="true"></i> <i class="fa fa-tablet" aria-hidden="true"></i> <i class="fa fa-laptop" aria-hidden="true"></i> <i class="fa fa-desktop" aria-hidden="true"></i></span>
           <div class="tool-images">
             <div class="tool">
               <img src="files/ubuntu.png">
@@ -564,14 +565,14 @@
   <script type="text/javascript" src="files/adsct.js"></script>
   
 <div id="api_workaround" style="display:none;">
-    You can send request like <pre>wget -q -O - 'https://sshto.net/<span class="youremail">your_email</span>/1?token=<span class="id_token">LOG_IN_TO_SEE_YOUR_TOKEN_HERE</span>'</pre> where <pre>1</pre> is your machine ID, to get JSON of your opened port of the format <pre>{ "port": 34567 }</pre>
+    You can send request like <pre>wget -q -O - 'https://sshto.net/<span class="youremail">your_email</span>/1?token=<span class="id_token">LOG_IN_TO_SEE_YOUR_TOKEN_HERE</span>'</pre> where <pre>1</pre> is your machine ID, to get JSON of your opened port of the format <pre>{ "port": 34567 }</pre>You will have to refresh your token in approximately half a year.
 </div>
 
 <div id="boot_time" style="display:none;">
     <h1>Connect at boot time</h1><p>
     First of all, you need to accept the sshto.net host key. Do this by running the basic port forward code once in the terminal:
     <pre>ssh -l <span class="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</pre>and answer "yes"<br/></p>
-    <h3>On Linux, RPI, Ubuntu</h3>
+    <h3>On Linux, RPI, Ubuntu, *bsd, unix</h3>
     Use this one-liner to launch it in background with automatic reconnects:
     <pre>while true; do ssh -l <span class="youremail">your_email</span> -NR 1:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net; done &</pre>
     On ubuntu, just paste this code into console to automatically add it to rc.local:
