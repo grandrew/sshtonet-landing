@@ -185,7 +185,7 @@
                 </div>
                 <div class="helptext bullet-holder">
                   <div class="bullet -image-info -gutter-mid"></div>
-                  Copy the line of code into your terminal to activate your remote shell. <span style="font-weight: bold">-R &nbsp;1:</span> stands for machine number <span style="font-weight: bold">1</span>. Use 2,3,4... for each of your hosts. (This is a standard ssh feature called <a style="color: white" href="http://unix.stackexchange.com/questions/46235/how-does-reverse-ssh-tunneling-work">reverse port forwarding</a>)
+                  Copy the line of code into your terminal to activate your remote shell. <span style="font-weight: bold">-R &nbsp;1:</span> stands for machine number <span style="font-weight: bold">1</span>. Use 2,3,4... for each of your hosts. (This is a standard ssh feature called <a style="" href="http://unix.stackexchange.com/questions/46235/how-does-reverse-ssh-tunneling-work">reverse port forwarding</a>). Make sure you add this to <a href="#boot_time" rel="modal:open">launch at boot time</a>.
                 </div>
                 <div class="buttons">
                   <a href="" rel="nofollow" class="button text-button -submit">
@@ -565,6 +565,39 @@
   
 <div id="api_workaround" style="display:none;">
     You can send request like <pre>wget -q -O - 'https://sshto.net/<span class="youremail">your_email</span>/1?token=<span class="id_token">LOG_IN_TO_SEE_YOUR_TOKEN_HERE</span>'</pre> where <pre>1</pre> is your machine ID, to get JSON of your opened port of the format <pre>{ "port": 34567 }</pre>
+</div>
+
+<div id="boot_time" style="display:none;">
+    <h1>Connect at boot time</h1><p>
+    First of all, you need to accept the sshto.net host key. Do this by running the basic port forward code once in the terminal:
+    <pre>ssh -l <span class="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</pre>and answer "yes"<br/></p>
+    <h3>On Linux, RPI, Ubuntu</h3>
+    Use this one-liner to launch it in background with automatic reconnects:
+    <pre>while true; do ssh -l <span class="youremail">your_email</span> -NR 1:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net; done &</pre>
+    On ubuntu, just paste this code into console to automatically add it to rc.local:
+    <pre>
+sed -i "/exit 0/d" /etc/rc.local # remove exit 0
+cat >> /etc/rc.local &lt;&lt; 'EOF'
+while true; do
+ssh -l <span class="youremail">your_email</span> -NR 1:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net
+done & # fork to background
+exit 0
+EOF
+    </pre>
+    <br/>
+    <h3>On Mac</h3>
+    <p>In Automator app, create a new application with "Run Shell Script" task with the code as in ubuntu version, save. Then, in System Preferences -> Users & Groups in your "Login Items" add the new automator app and choose "hide". Reboot. See more details <a href="http://stackoverflow.com/questions/22842016/launch-shell-script-on-login-in-mac-os-os-x">here</a>.</p>
+    <h3>On OpenWRT router / embedded device</h3>
+    <p>You need to be sure to have a decent dropbear version as older versions are not supported yet. You may download one from openwrt website for your platform - in case yours is too old.</p>
+    <p>Correct dropbear invocation pattern is like:</p>
+    <pre>while true; do ssh -l realgrandrew@gmail.com -K 20 -N -R 18:0:localhost:22 sshto.net; done</pre>
+    <p>you can add this to rc.local or create a shell script and run from rc.local in background.</p>
+    <h3>On Ubuntu Phone</h3>
+    <p>On ubuntu phone I personally use cron job to kill ssh process periodically as it may hang due to network disruptions:</p>
+    <pre>0 * * * * pkill -f sshto.net</pre>
+    <h3>On Windows</h3>
+    <p>Wait until Microsoft finishes the support. See more info <a href="https://blogs.msdn.microsoft.com/powershell/2015/06/03/looking-forward-microsoft-support-for-secure-shell-ssh/">here</a> and <a href="https://blogs.msdn.microsoft.com/powershell/2015/10/19/openssh-for-windows-update/">here</a>.</p>
+    <p>Please send any suggestions to <a href="mailto:info@sshto.net">info@sshto.net</a> or write reports to <a href="https://github.com/sshtonet/sshtonet/issues">https://github.com/sshtonet/sshtonet/issues</a>.
 </div>
 
 <!--Start of Tawk.to Script-->
