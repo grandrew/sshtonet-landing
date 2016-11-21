@@ -3446,19 +3446,19 @@ a.text-danger:hover {
     padding-top: 2em
 }
 
-@media (min-width: 768px) {
-    .terminal-body.-floating-pi:after {
-        background-image: url("../img/home/raspberry-pi-real.264f9534fb12.png");
-        background-size: 100% 100%;
-        content: '';
-        display: block;
-        height: 300px;
-        position: absolute;
-        right: -1em;
-        top: -5em;
-        width: 247px
-    }
-}
+/*@media (min-width: 768px) {*/
+/*    .terminal-body.-floating-pi:after {*/
+/*        background-image: url("../img/home/raspberry-pi-real.264f9534fb12.png");*/
+/*        background-size: 100% 100%;*/
+/*        content: '';*/
+/*        display: block;*/
+/*        height: 300px;*/
+/*        position: absolute;*/
+/*        right: -1em;*/
+/*        top: -5em;*/
+/*        width: 247px*/
+/*    }*/
+/*}*/
 
 @media (min-width: 768px) {
     .terminal-body.-floating-pi>.buttons,
@@ -4459,4 +4459,18 @@ a.text-danger:hover {
     height: 0.6em;
     width: auto;
     opacity: 0.85;
+}
+
+pre {
+    white-space: pre-wrap;
+    /* css-3 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
+    background-color: lightgray;
 }
