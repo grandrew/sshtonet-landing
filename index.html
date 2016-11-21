@@ -567,8 +567,7 @@
 <div id="api_workaround" style="display:none;">
     You can send request like <pre>wget -q -O - 'https://sshto.net/<span class="youremail">your_email</span>/1?token=<span class="id_token">LOG_IN_TO_SEE_YOUR_TOKEN_HERE</span>'</pre> where <pre>1</pre> is your machine ID, to get JSON of your opened port of the format <pre>{ "port": 34567 }</pre><p>You will have to refresh your token in approximately half a year.</p>
     <p><strong>To get port in plain text format</strong>, set <pre>Content-Type: text/plain</pre> HTTP header. Here is the general pattern if you want to execute a command "foo" on your machine:</p>
-    <pre>ssh -l user sshto.net "foo" -p \
-    $(curl -s -H "Content-Type: text/plain" https://sshto.net/your@email/1?token=MY_TOKEN)</pre>
+    <pre>ssh -l user sshto.net "foo" -p $(curl -s -H "Content-Type: text/plain" https://sshto.net/your@email/1?token=MY_TOKEN)</pre>
     <p>Here is the full example:</p>
     <pre>ssh -l user sshto.net "foo" -p $(curl -s -H "Content-Type: text/plain" https://sshto.net/<span class="youremail">your@email</span>/1?token=<span class="id_token">LOG_IN_TO_SEE_YOUR_TOKEN_HERE</span>)</pre>
 </div>
