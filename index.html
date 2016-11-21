@@ -401,7 +401,7 @@
           <div class="inner">
             <div class="title">How does SshTo.net work?</div>
             <p class="definition">
-              SshTo.net provides a standard SSH server with modified PAM access control to allow easy reverse port forwarding. You request a random port on our servers that forwards to your machine local port.
+              SshTo.net provides a standard SSHv2 server with modified PAM access control to allow easy reverse port forwarding. You request a random port on our servers that forwards to your machine local port using our <a href="#api_workaround" rel="modal:open">API</a>.
             </p>
           </div>
         </li>
@@ -409,7 +409,7 @@
           <div class="inner">
             <div class="title">Can I enable it at boot time?</div>
             <p class="definition">
-              Sure. Just put it into your rc.local file (or any other place your distribution recommends). Also remember to put the code inside <span style="font-family: monospace; background-color: lightgray">while true; do &lt;code here&gt;; done &</span> code block.
+              Sure. Just put it into your rc.local file (or any other place your distribution recommends). Also remember to put the code inside <span style="font-family: monospace; background-color: lightgray">while true; do &lt;code here&gt;; done &</span> code block. Read more details and examples for Linux, FreeBSD, Mac, OpenWRT and others <a href="#boot_time" rel="modal:open">here</a>.
             </p>
           </div>
         </li>
