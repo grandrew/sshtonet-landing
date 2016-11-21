@@ -201,9 +201,9 @@
                 <div class="content bullet-holder">
                   <div class="bullet -gutter -bg-success -text">2</div>
                   <div style="display: none;" id="typed-strings">
-                    <p><span>ssh -l <span class="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</span></p>
+                    <p><span>ssh -l <span class="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</span><span class="terminal-comment signinfirst"> # sign in to activate your email first</span></p>
                   </div>
-                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</span></span>
+                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</span><span class="terminal-comment signinfirst"> # sign in to activate your email first</span></span>
                 </div>
                 <div class="helptext bullet-holder">
                   <div class="bullet -image-info -gutter-mid"></div>
@@ -651,6 +651,15 @@ s0.parentNode.insertBefore(s1,s0);
         r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
         a.appendChild(r);
     })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+<script>
+var profile = JSON.parse(localStorage.getItem('profile'));
+if(profile) {
+    $(".signinfirst").hide();
+    $(".signinfirst").text("");
+    $(".youremail").text(profile.email);
+}
 </script>
 
 </body>

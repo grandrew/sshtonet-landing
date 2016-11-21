@@ -208,6 +208,7 @@ $(document).ready(function() {
         $("#altlog").hide();
         $("#altlog2").hide();
         $(".form").hide();
+        $(".signinfirst").hide();
         $(".promoblock").hide();
         $("#hostslist").show();
         $(".pretitle").text("Hi, "+profile.name+"!");
