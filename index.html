@@ -401,7 +401,7 @@
           <div class="inner">
             <div class="title">How does SshTo.net work?</div>
             <p class="definition">
-              SshTo.net provides a standard SSHv2 server with modified PAM access control to allow easy reverse port forwarding. You request a random port on our servers that forwards to your machine local port using our <a href="#api_workaround" rel="modal:open">API</a>.
+              SshTo.net provides a standard SSHv2 server with modified PAM access control to allow easy reverse port forwarding. You request a random port on our servers that forwards to your local port using this web interface or <a href="#api_workaround" rel="modal:open">API</a>.
             </p>
           </div>
         </li>
@@ -409,7 +409,7 @@
           <div class="inner">
             <div class="title">Can I enable it at boot time?</div>
             <p class="definition">
-              Sure. Just put it into your rc.local file (or any other place your distribution recommends). Also remember to put the code inside <span style="font-family: monospace; background-color: lightgray">while true; do &lt;code here&gt;; done &</span> code block. Read more details and examples for Linux, FreeBSD, Mac, OpenWRT and others <a href="#boot_time" rel="modal:open">here</a>.
+              Sure. Just put it into your rc.local file (or any other place your distribution recommends). Also remember to put the code inside <span style="font-family: monospace; background-color: lightgray">while true; do &lt;code here&gt;; done &</span> code block. Read more details and examples for Linux, FreeBSD, Mac, Windows, OpenWRT and others <a href="#boot_time" rel="modal:open">here</a>.
             </p>
           </div>
         </li>
@@ -419,7 +419,7 @@
           <div class="inner">
             <div class="title">Can SshTo.net open a different local port from 22?</div>
             <p class="definition">
-              Yes. You can forward any port. For example, you can expose VNC, RDP or other "active" connections. The port will drop immediately after disconnect.
+              Yes. You can forward any port. For example, you can expose VNC, RDP or other "active" connections. The port will drop immediately after first connection.
             </p>
           </div>
         </li>
@@ -473,7 +473,7 @@
           <dl class="inner">
             <dt class="title"><i class="fa fa-shield" aria-hidden="true"></i> Simple and secure</dt>
             <dd class="definition">
-              SshTo.net does not receive any access to your machine - just forwards the port. Furthemore, your port is not visible on the internet until you authorize with a web token and explicitly ask for a single-time external access port.
+              SshTo.net does not receive any access to your machine - just forwards the port. Furthemore, your port is not visible on the internet until you authorize with a web token and explicitly ask for a single-time external access.
             </dd>
           </dl>
         </li>
@@ -571,7 +571,7 @@
 <div id="boot_time" style="display:none;">
     <h1>Connect at boot time</h1><p>
     First of all, you need to accept the sshto.net host key. Do this by running the basic port forward code once in the terminal:
-    <pre>ssh -l <span class="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</pre>and answer "yes"<br/></p>
+    <pre>ssh -l <span class="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</pre>and answer "yes" to accept the key. Other clients, like <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a> may provide slightly different interface for that.<br/></p>
     <h3>On Linux, RPI, Ubuntu, *bsd, unix</h3>
     Use this one-liner to launch it in background with automatic reconnects:
     <pre>while true; do ssh -l <span class="youremail">your_email</span> -NR 1:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net; done &</pre>
@@ -597,7 +597,7 @@ EOF
     <p>On ubuntu phone I personally use cron job to kill ssh process periodically as it may hang due to network disruptions:</p>
     <pre>0 * * * * pkill -f sshto.net</pre>
     <h3>On Windows</h3>
-    <p>Wait until Microsoft finishes the support. See more info <a href="https://blogs.msdn.microsoft.com/powershell/2015/06/03/looking-forward-microsoft-support-for-secure-shell-ssh/">here</a> and <a href="https://blogs.msdn.microsoft.com/powershell/2015/10/19/openssh-for-windows-update/">here</a>.</p>
+    <p>SSH on windows is not yet fully supported, see more info <a href="https://blogs.msdn.microsoft.com/powershell/2015/06/03/looking-forward-microsoft-support-for-secure-shell-ssh/">here</a> and <a href="https://blogs.msdn.microsoft.com/powershell/2015/10/19/openssh-for-windows-update/">here</a>. However, you can forward PowerShell remote ports 5985 and 5986 from your Windows CORE IoT, Windows Server or PC using <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a> or easy software listed <a href="http://superuser.com/questions/235395/automatic-ssh-tunneling-from-windows">here</a></p>
     <p>Please send any suggestions to <a href="mailto:info@sshto.net">info@sshto.net</a> or write reports to <a href="https://github.com/sshtonet/sshtonet/issues">https://github.com/sshtonet/sshtonet/issues</a>.
 </div>
 
