@@ -4474,3 +4474,7 @@ pre {
     /* Internet Explorer 5.5+ */
     background-color: lightgray;
 }
+
+#thankyouhtml {
+    display: none;
+}

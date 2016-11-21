@@ -110,7 +110,12 @@ $(document).ready(function() {
       localStorage.setItem('profile', JSON.stringify(profile));
       // Display user information
       console.log("Authorization");
-      
+      $('<iframe>', {
+       src: 'thankyou.html',
+       id:  'thankyouhtml',
+       frameborder: 0,
+       scrolling: 'no'
+       }).appendTo(document.body); 
       show_profile_info(profile);
     });
   });
