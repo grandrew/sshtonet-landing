@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://www.sshto.net/docs/docs//feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.0">Jekyll</generator><link href="https://www.sshto.net/docs/docs//feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.sshto.net/docs/docs//" rel="alternate" type="text/html" /><updated>2016-11-23T11:42:16+00:00</updated><id>https://www.sshto.net/docs/docs///</id><title type="html">SshTo.net - blog from the experts of SSH port forwarding</title><subtitle>Use standard and secure SSH to remotely access your IoT, Ubuntu, Mac, Router, Raspberry PI, Servers .. anything from anywhere in the world</subtitle><entry><title type="html">SSH port forwarding explained in diagrams and tables</title><link href="https://www.sshto.net/docs/docs//general%20documentation/2016/11/23/ssh-port-forwarding-explained.html" rel="alternate" type="text/html" title="SSH port forwarding explained in diagrams and tables" /><published>2016-11-23T00:00:00+00:00</published><updated>2016-11-23T00:00:00+00:00</updated><id>https://www.sshto.net/docs/docs//general%20documentation/2016/11/23/ssh-port-forwarding-explained</id><content type="html" xml:base="https://www.sshto.net/docs/docs//general%20documentation/2016/11/23/ssh-port-forwarding-explained.html">&lt;p&gt;In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems. For example, you may have a machine that does not have a globally-addressable IP but you want to be able to access it via internet from anywhere in the world, or you may want to access local port service that is only accessible at localhost address on your development server (like test flask server, or test docker showcase service, etc.).&lt;/p&gt;
+
+&lt;h2 id=&quot;port-forwarding-vs-tunneling&quot;&gt;Port forwarding vs. tunneling&lt;/h2&gt;
+
+&lt;p&gt;There are two most popular general ways to use SSH to create a logical network topology on top of current network configuration (aka software-defined network): &lt;strong&gt;port forwarding&lt;/strong&gt; and &lt;strong&gt;tunneling&lt;/strong&gt;. 
+The difference between these is described in the following table:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Tunneling&lt;/th&gt;
+      &lt;th&gt;Port forwarding&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;System interface&lt;/td&gt;
+      &lt;td&gt;virutal network card, user process&lt;/td&gt;
+      &lt;td&gt;user process&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Principle of operation&lt;/td&gt;
+      &lt;td&gt;encapsulates raw packets like VPN&lt;/td&gt;
+      &lt;td&gt;connects to a specific port as proxy server&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Configuration required&lt;/td&gt;
+      &lt;td&gt;ip address, routing, (firewall rules)&lt;/td&gt;
+      &lt;td&gt;knowing your ports&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;In this article I will cover port forwarding techniques and I will be primarily discussing OpenSSH 6.6p1&lt;/p&gt;
+
+&lt;h2 id=&quot;types-of-ssh-port-forwarding&quot;&gt;Types of SSH port forwarding&lt;/h2&gt;
+
+&lt;p&gt;SSHv2 protocol defines three network port forwarding features: &lt;strong&gt;Local&lt;/strong&gt;, &lt;strong&gt;Remote&lt;/strong&gt;, and &lt;strong&gt;Dynamic&lt;/strong&gt;. &lt;em&gt;Local&lt;/em&gt; and &lt;em&gt;Dynamic&lt;/em&gt; modes may in some situations be used to solve similar problems while &lt;em&gt;Remote&lt;/em&gt; operation type is completely different. The main difference from the user view perspective is that in case of &lt;em&gt;Local&lt;/em&gt; and &lt;em&gt;Dynamic&lt;/em&gt; port forwarding modes you connect to your local port that your ssh client has created and ssh server then interprets your request to connect to further ports at the other side, while when you request a &lt;em&gt;Remote&lt;/em&gt;  port forwarding with your ssh client - the ssh client connects to some of your local ports by itself when a remote ssh server requests such a connection.&lt;/p&gt;
+
+&lt;p&gt;These differences from the perspective of a user launching an ssh client are outlined in the table below:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Remote fwd&lt;/th&gt;
+      &lt;th&gt;Local fwd&lt;/th&gt;
+      &lt;th&gt;Dymamic fwd&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ssh client does&lt;/td&gt;
+      &lt;td&gt;starts waiting for remote server request, then connects to port (and optionally host) defined as command line parameters locally&lt;/td&gt;
+      &lt;td&gt;creates a listening daemon at the machine where you executed it, then sends a request to ssh server to establish a connection where you asked at command line parameters when a local connection is received&lt;/td&gt;
+      &lt;td&gt;starts a local SOCKS protocol proxy daemon at the port you requested, at the host that you executed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ssh server does&lt;/td&gt;
+      &lt;td&gt;creates a listening daemon on port requested by client and when connection establishes it asks the client ssh to connect to host and port defined as command line parameters, at the client side&lt;/td&gt;
+      &lt;td&gt;starts waiting for client request and connects on its own to the destination that you reqested to forward the data&lt;/td&gt;
+      &lt;td&gt;starts listening for requests from client to connect to hosts and ports that SOCKS protocol tells it&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;I will cover two types of configuration: Local and Remote (also sometimes called Reverse) port forwarding. Dynamic (or SOCKS) port forwarding may be interesting to create full proxies - for example, if you want to use alternative transmission methods such as IPv6 or multipath TCP (MPTCP) between the client and hosts and use server as a proxy or a gateway to the other medium or transmission protocol (like going from MPTCP or IPv6 back to normal TCP/IPv4).&lt;/p&gt;
+
+&lt;h2 id=&quot;how-does-local-port-forwarding-work&quot;&gt;How does Local port forwarding work?&lt;/h2&gt;
+
+&lt;p&gt;I will explain it based on this real-world scenario:&lt;/p&gt;
+
+&lt;p&gt;I run a Flask development server in the cloud VPS server on &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8080&lt;/code&gt; and as it is a debug-only server I can not expose it to the internet. I am going to use Local SSH port forwarding to access the Flask server as if it was running on my local machine (or maybe I’d like show it to my collegues on my local network)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/docs//img/ssh-explained-scenario.png&quot; alt=&quot;server local SSH port forwarding scenario&quot; title=&quot;Flask server local SSH port forwarding to cloud server localhost&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The correct invocation pattern for ssh client on your local machine (Mac, Linux, Chromebook, etc.) will be:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ssh -N -L localhost:8000:localhost:8080 -l user remote.example.com&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;where &lt;code class=&quot;highlighter-rouge&quot;&gt;-N&lt;/code&gt; tells ssh client not to enter interactive shell mode and &lt;code class=&quot;highlighter-rouge&quot;&gt;-L&lt;/code&gt; tells to set up a Local port forwarding. The local SSH will listen to connections on port &lt;code class=&quot;highlighter-rouge&quot;&gt;8000&lt;/code&gt; 
+so that if I point my browser to &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8000&lt;/code&gt; I will reach my Flask server at &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8080&lt;/code&gt; at the remote machine.&lt;/p&gt;
+
+&lt;p&gt;Here is what will happen in this scenario:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/docs//img/ssh-local-forward-process-diagram.svg&quot; alt=&quot;process diagram for local port forwarding&quot; title=&quot;Process diagram of browser connecting to local host with ssh local port forwarding set up&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You may further modify this example to use &lt;code class=&quot;highlighter-rouge&quot;&gt;-L 0.0.0.0:8000:localhost:8080&lt;/code&gt; to tell local ssh client to listen on all interfaces globally on your local machine. This way you will be able to connect to your local machine as if it had the flask server installed on port 8000. For example, it may be useful if you want to show your Flask app to your collegues or to test from your local devices like smartphone or IoT device.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-does-remote-port-forwarding-work&quot;&gt;How does Remote port forwarding work?&lt;/h2&gt;
+
+&lt;p&gt;I will explain this using the following real-world scenario:&lt;/p&gt;
+
+&lt;p&gt;I want to access SSH shell of my Raspberry PI that has access to the internet via my home wi-fi router using sshto.net free ssh server.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/docs//img/ssh-remote-port-forward.png&quot; alt=&quot;remote SSH port forwarding scenario&quot; title=&quot;RPI connects to sshto.net SSH server and requests remote port forwarding&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Another example is that I want to access my virtual machine SSH shell at my GCE account that does not have an external IP address associated with it 
+(I want to save some money and save internet by not requesting another IPv4 address for my test machine)&lt;/p&gt;
+
+&lt;p&gt;I will cover both examples as they are essentially the same.&lt;/p&gt;
+
+&lt;p&gt;In order for Remote port forwarding to work for this example - this time you will need to execute SSH client at the Raspberry PI (or at the cloud VPS for second scenario).&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ssh -N -R 0.0.0.0:8022:localhost:22 -l user remote.example.com&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This command will tell remote ssh server to open a listening port al &lt;code class=&quot;highlighter-rouge&quot;&gt;0.0.0.0:8022&lt;/code&gt; which means that it will be globally accessible to the network your server is connected to and the server will then request your client to connect to your local port 22. So that if you want to connect to your RPI you will be entering your server address and port 8022:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/docs//img/ssh-remote-forward-process-diagram.svg&quot; alt=&quot;process diagram for remote port forwarding&quot; title=&quot;Process diagram of PuTTY connecting to sshto.net host with ssh remote port forwarding set up&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.sshto.net&quot;&gt;sshto.net&lt;/a&gt; provides a free ssh remote port forwarding service so that you can directly execute&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ssh -N -R 1:0:localhost:22 -l myemail@example.com sshto.net&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You will have to &lt;a href=&quot;https://www.sshto.net&quot;&gt;Sign up&lt;/a&gt; first to enable your email login.&lt;/p&gt;
+
+&lt;p&gt;SshTo.net uses first parameter &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;1:&quot;&lt;/code&gt; that is normally used to indicate interface to listen to at the server side to indicate the ID of your machine rather than what it is intended for as it will always listen to internet interface. Also, by supplying &lt;code class=&quot;highlighter-rouge&quot;&gt;:0:&lt;/code&gt; as remote port you ask the ssh server to choose remote port automatically, hence &lt;code class=&quot;highlighter-rouge&quot;&gt;-R 1:0:localhost:22&lt;/code&gt; - this is a standard SSHv2 server feature too. In our examples for remote port forwarding we listen to &lt;code class=&quot;highlighter-rouge&quot;&gt;0.0.0.0:8022:localhost:22&lt;/code&gt; which means any interface and port 8022.&lt;/p&gt;
+
+&lt;p&gt;An even more easy-to-remember pattern looks like&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ssh -NR 1:0:0:22 -l email sshto.net&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;because OpenSSH client by default connects to &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost&lt;/code&gt; and supports parameter shorting you can just use &lt;code class=&quot;highlighter-rouge&quot;&gt;-NR 1:0:0:22&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;security-considerations&quot;&gt;Security considerations&lt;/h2&gt;
+
+&lt;p&gt;It is important to know that opening your local ports to the internet is potentially dangerous as you will most likely not maintain an up-to-date security configuration on your local PC or IoT device. This means that permanently remote-forwarded port of your application is a high risk.&lt;/p&gt;
+
+&lt;p&gt;This is why &lt;a href=&quot;https://www.sshto.net&quot;&gt;SshTo.net&lt;/a&gt; asks web authentication to request an open port for a limited amount of time using web interface or API.&lt;/p&gt;</content><author><name>Andrew Gryaznov</name></author><category term="windows" /><category term="linux" /><category term="embedded" /><summary type="html">In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems. For example, you may have a machine that does not have a globally-addressable IP but you want to be able to access it via internet from anywhere in the world, or you may want to access local port service that is only accessible at localhost address on your development server (like test flask server, or test docker showcase service, etc.).</summary></entry></feed>
