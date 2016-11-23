@@ -4478,3 +4478,12 @@ pre {
 #thankyouhtml {
     display: none;
 }
+
+
+@media (min-width: 991px) {
+.doc-links {
+    position: relative;
+    top: 0px;
+    right: -221px;
+}
+}
