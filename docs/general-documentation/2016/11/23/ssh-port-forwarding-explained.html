@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/docs/favicon.png">
     <title>SSH port forwarding explained in diagrams and tables</title>
-    <meta name="description" content="In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems. ...">
+    <meta name="description" content="In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems.">
     <link rel="canonical" href="https://www.sshto.net/docs/docs/general-documentation/2016/11/23/ssh-port-forwarding-explained.html" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css" rel="stylesheet"  />
@@ -72,7 +72,19 @@
     
 </div>
 <div class="row">
-<p>In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems. For example, you may have a machine that does not have a globally-addressable IP but you want to be able to access it via internet from anywhere in the world, or you may want to access local port service that is only accessible at localhost address on your development server (like test flask server, or test docker showcase service, etc.).</p>
+<p>In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems.</p>
+
+<p>For example, you may have a machine that does not have a globally-addressable IP but you want to be able to access it via internet from anywhere in the world, or you may want to access local port service that is only accessible at localhost address on your development server (like test flask server, or test docker showcase service, etc.).</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Local SSH port forwarding: </span>
+<span class="c">#    Firefox-&gt;localhost:8000(ssh client)----&gt;(ssh server)host:port-&gt;(flask@localhost:8080)</span>
+ssh -N -L localhost:8000:localhost:8080 -l user remote.example.com
+
+<span class="c"># Remote SSH port forwarding: </span>
+<span class="c">#    localhost:8080(httpd)&lt;-(ssh client)&lt;----(ssh server)listen:0.0.0.0:80 &lt;- (internet requests)</span>
+ssh -N -R 0.0.0.0:80:localhost:8080 -l user remote.example.com</code></pre></figure>
 
 <h2 id="port-forwarding-vs-tunneling">Port forwarding vs. tunneling</h2>
 

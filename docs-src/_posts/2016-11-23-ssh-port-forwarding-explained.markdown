@@ -13,8 +13,23 @@ prism: true
 author: Andrew Gryaznov
 ---
 
-In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems. For example, you may have a machine that does not have a globally-addressable IP but you want to be able to access it via internet from anywhere in the world, or you may want to access local port service that is only accessible at localhost address on your development server (like test flask server, or test docker showcase service, etc.).
+In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems. 
 
+For example, you may have a machine that does not have a globally-addressable IP but you want to be able to access it via internet from anywhere in the world, or you may want to access local port service that is only accessible at localhost address on your development server (like test flask server, or test docker showcase service, etc.).
+
+
+TL;DR
+-----
+
+{% highlight bash %}
+# Local SSH port forwarding: 
+#    Firefox->localhost:8000(ssh client)---->(ssh server)host:port->(flask@localhost:8080)
+ssh -N -L localhost:8000:localhost:8080 -l user remote.example.com
+
+# Remote SSH port forwarding: 
+#    localhost:8080(httpd)<-(ssh client)<----(ssh server)listen:0.0.0.0:80 <- (internet requests)
+ssh -N -R 0.0.0.0:80:localhost:8080 -l user remote.example.com
+{% endhighlight %}
 
 Port forwarding vs. tunneling
 -----------------------------
