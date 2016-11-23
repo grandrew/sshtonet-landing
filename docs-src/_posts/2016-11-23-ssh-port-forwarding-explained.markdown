@@ -33,7 +33,7 @@ In this article I will cover port forwarding techniques and I will be primarily 
 Types of SSH port forwarding
 ----------------------------
 
-SSHv2 protocol defines three network port forwarding features: **Local**, **Remote**, and **Dynamic**. *Local* and *Dynamic* modes may in some situations be used to solve similar problems while *Remote* operation type is completely different. The main difference from the user view perspective is that in case of *Local* and *Dynamic* port forwarding modes you connect to your local port that your ssh client has created and ssh server then interprets your request to connect to further ports at the other side, while when you request a *Remote*  port forwarding with your ssh client - the ssh client connects to some of your local ports by itself when a remote ssh server requests such a connection.
+SSHv2 protocol implementation in OpenSSH 6.6 defines three network port forwarding features: **Local**, **Remote**, and **Dynamic**. *Local* and *Dynamic* modes may in some situations be used to solve similar problems while *Remote* operation type is completely different. The main difference from the user view perspective is that in case of *Local* and *Dynamic* port forwarding modes you connect to your local port that your ssh client has created and ssh server then interprets your request to connect to further ports at the other side, while when you request a *Remote*  port forwarding with your ssh client - the ssh client connects to some of your local ports by itself when a remote ssh server requests such a connection.
 
 These differences from the perspective of a user launching an ssh client are outlined in the table below:
 
