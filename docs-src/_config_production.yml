@@ -2,7 +2,7 @@ destination: ../docs/
 title: SshTo.net - blog from the experts of SSH port forwarding
 email: info@sshto.net
 description: Use standard and secure SSH to remotely access your IoT, Ubuntu, Mac, Router, Raspberry PI, Servers .. anything from anywhere in the world
-baseurl: /docs/
+baseurl: /docs
 url: https://www.sshto.net/docs
 twitter_username: realga_v 
 github_username: sshtonet 
