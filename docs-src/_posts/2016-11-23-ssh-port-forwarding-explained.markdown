@@ -2,7 +2,7 @@
 layout: post
 title:  SSH port forwarding explained in diagrams and tables
 categories: 
-    - general documentation
+    - general-documentation
 tags: 
     - windows
     - linux 
