@@ -11,6 +11,7 @@ thumbnail: /img/ssh-local-forward-process.png
 cover: /img/ssh-local-forward-process.png
 prism: true
 author: Andrew Gryaznov
+comments: true
 ---
 
 In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems. 

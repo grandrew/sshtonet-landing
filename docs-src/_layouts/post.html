@@ -20,3 +20,8 @@ layout: base
 <div class="row">
 {{ content }}
 </div>
+{% if page.comments %}
+{% include disqus.html %}
+{% endif %}
+
+{% include analytics.html %}
