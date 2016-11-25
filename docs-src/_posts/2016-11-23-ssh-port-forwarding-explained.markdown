@@ -43,6 +43,7 @@ The difference between these is described in the following table:
 | System interface       | virutal network card, user process    | user process                                |
 | Principle of operation | encapsulates raw packets like VPN     | connects to a specific port as proxy server |
 | Configuration required | ip address, routing, (firewall rules) | knowing your ports                          |
+| On reconnect | the data flow briefly disrupts then continues | all onging connections drop |
 
 In this article I will cover port forwarding techniques and I will be primarily discussing OpenSSH 6.6p1
 
