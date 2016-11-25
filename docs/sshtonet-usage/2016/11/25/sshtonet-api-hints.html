@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="beta"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/docs/favicon.png">
+    <title>SshTo.net API hints</title>
+    <meta name="description" content="This article covers current web API that is used by SshTo.net web interface to request temporary ports for forwarded connections. The full API is currenlty w...">
+    <link rel="canonical" href="https://www.sshto.net/docs/docs/sshtonet-usage/2016/11/25/sshtonet-api-hints.html" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css" rel="stylesheet"  />
+    <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/docs/css/main.css">
+	
+	<link rel="stylesheet" href="/docs/css/prism.css">
+	
+    <link rel="alternate" type="application/rss+xml" title="SshTo.net - blog from the experts of SSH port forwarding" href="/docs/feed.xml" />
+</head>
+
+<body>
+<header>
+<a href="/" class="top-logo"><img src="/docs/terminal_w.png"/></a>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="container"><a href="#" data-activates="nav-bar" class="button-collapse"><i class="material-icons">menu</i></a></div>
+            <ul class="right hide-on-med-and-down ">
+                
+                <li><a href="/docs/">Home</a></li>
+                
+                <li><a href="/docs/categories.html">Categories</a></li>
+                
+                <li><a href="/docs/tags.html">Tags</a></li>
+                
+            </ul>
+            <ul class="side-nav" id="nav-bar">
+                
+                <li><a href="/docs/">Home</a></li>
+                
+                <li><a href="/docs/categories.html">Categories</a></li>
+                
+                <li><a href="/docs/tags.html">Tags</a></li>
+                
+            </ul>
+        </div>
+    </nav>
+</header>
+<br/>
+<main>
+    <div class="container">
+        
+<div class="row">
+<h2>SshTo.net API hints</h2>
+<div class="valign-wrapper">
+<div class="author"><img src="/docsterminal_ico.png" class="circle responsive-img"></div><h5>Andrew Gryaznov - <a href="/docs/categories/sshtonet-usage">sshtonet-usage</a> - 11/25/2016</h5>
+</div>
+    
+    
+    <a href="/docs/tags/beta"><div class="chip waves-effect waves-red">beta</div></a>
+    
+    
+</div>
+<div class="row">
+<p>This article covers current web API that is used by SshTo.net web interface to request temporary ports for forwarded connections. The full API is currenlty work-in-progress but you can still use this web API to access basic functions of SshTo.net programmatically.</p>
+
+<p>Our full API will allow to securely ask for external port and to access your ports using long-runnig user-controlled tokens. But as of today, only JWT authentication is supported and tokens expire in about half a year. You can get a new token by authenticating at the main <a href="https://www.sshto.net">sshto.net</a> website and clicking any of the “API” links on the site.</p>
+
+<h2 id="api-usage">API Usage</h2>
+
+<p>SshTo.net web API allows to request temporary port using a simple GET port to the address of the form</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/&lt;your_email&gt;/&lt;machine_id&gt;
+</code></pre>
+</div>
+
+<p>where <code class="highlighter-rouge">machine_id</code> is ID of your machine that you supplied as ssh port forwarding parameters.</p>
+
+<h3 id="json-format">JSON format</h3>
+
+<p>You can send request like</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>wget -q -O - 'https://sshto.net/YOUR_EMAIL/1?token=YOUR_TOKEN'
+</code></pre>
+</div>
+
+<p>where <code class="highlighter-rouge">1</code> is your machine ID, to get JSON of your opened port of the format</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w"> </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">34567</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h3 id="plain-format">Plain format</h3>
+
+<p>Plain format is useful when you want to execute command on your remote machine using a bash script one-liner. As the only returned value will be the port number - you can directly use it in the script.</p>
+
+<p>To get port in plain text format, set <code class="highlighter-rouge">Content-Type: text/plain</code> HTTP request header.</p>
+
+<p>Here is the general pattern if you want to execute a command <code class="highlighter-rouge">"foo"</code> on your machine:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ssh -l user sshto.net "foo" -p $(curl -s -H "Content-Type: text/plain" https://sshto.net/YOUR_EMAIL/1?token=YOUR_TOKEN)
+</code></pre>
+</div>
+
+<p>Here is the full example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ssh -l user sshto.net "foo" -p $(curl -s -H "Content-Type: text/plain" https://sshto.net/YOUR_EMAIL/1?token=YOUR_TOKEN)
+</code></pre>
+</div>
+
+
+</div>
+
+
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'sshtonet';
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+
+	<!-- Google Analytics -->
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-87587271-1', 'auto');
+  ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+
+<script>
+    var profile = JSON.parse(localStorage.getItem('profile'));
+    var id_token = localStorage.getItem('id_token');
+    if(profile) {
+        $("code").each(function() {
+        $(this).html($(this).html().replace("YOUR_EMAIL", profile.email));
+        $(this).html($(this).html().replace("YOUR_TOKEN", id_token));
+      });
+    }
+</script>
+    </div>
+</main>
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">SshTo.net - zero-effort SSH port forwarding service</h5>
+                <p class="grey-text text-lighten-4">Remotely access your IoT, Ubuntu, Mac, Router, Raspberry PI, Servers .. anything from anywhere in the world using standard SSH.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Contacts</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="mailto:info@sshto.net">info@sshto.net</a></li>
+                    <li><a class="grey-text text-lighten-3" href="/"></a>&nbsp;</li>
+                    <li><a class="grey-text text-lighten-3" href="/">Sign up</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2016 JSX Exchange
+            <a class="grey-text text-lighten-4 right" href="http://jsx.exchange">by jsx.exchange</a>
+        </div>
+    </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery_lazyload/1.9.7/jquery.lazyload.min.js" defer></script>
+<script src="/docs/js/load.js" defer></script>
+
+<script src="/docs/js/prism.js"></script>
+
+</body>
+</html>
