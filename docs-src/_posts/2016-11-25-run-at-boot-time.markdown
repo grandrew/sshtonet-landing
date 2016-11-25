@@ -1,14 +1,19 @@
 ---
 layout: post
-title:  SshTo.net API hints
+title:  How to run ssh port forwarding at boot time
 categories: 
     - sshtonet-usage
 tags: 
-    - beta
+    - windows
+    - mac
+    - linux
+    - embedded
 prism: true
 author: Andrew Gryaznov
 comments: true
 ---
+
+This article briefly covers methods to run ssh forwarding at boot time on various platforms.
 
 ## Connect at boot time
 
