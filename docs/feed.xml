@@ -1,4 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://www.sshto.net/docs/docs/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.0">Jekyll</generator><link href="https://www.sshto.net/docs/docs/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.sshto.net/docs/docs/" rel="alternate" type="text/html" /><updated>2016-11-24T09:20:32+00:00</updated><id>https://www.sshto.net/docs/docs//</id><title type="html">SshTo.net - blog from the experts of SSH port forwarding</title><subtitle>Use standard and secure SSH to remotely access your IoT, Ubuntu, Mac, Router, Raspberry PI, Servers .. anything from anywhere in the world</subtitle><entry><title type="html">SSH port forwarding explained in diagrams and tables</title><link href="https://www.sshto.net/docs/docs/general-documentation/2016/11/23/ssh-port-forwarding-explained.html" rel="alternate" type="text/html" title="SSH port forwarding explained in diagrams and tables" /><published>2016-11-23T00:00:00+00:00</published><updated>2016-11-23T00:00:00+00:00</updated><id>https://www.sshto.net/docs/docs/general-documentation/2016/11/23/ssh-port-forwarding-explained</id><content type="html" xml:base="https://www.sshto.net/docs/docs/general-documentation/2016/11/23/ssh-port-forwarding-explained.html">&lt;p&gt;In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://www.sshto.net/docs/docs/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.0">Jekyll</generator><link href="https://www.sshto.net/docs/docs/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.sshto.net/docs/docs/" rel="alternate" type="text/html" /><updated>2016-11-25T09:06:29+00:00</updated><id>https://www.sshto.net/docs/docs//</id><title type="html">SshTo.net - blog from the experts of SSH port forwarding</title><subtitle>Use standard and secure SSH to remotely access your IoT, Ubuntu, Mac, Router, Raspberry PI, Servers .. anything from anywhere in the world</subtitle><entry><title type="html">SshTo.net API hints</title><link href="https://www.sshto.net/docs/docs/sshtonet-usage/2016/11/25/sshtonet-api-hints.html" rel="alternate" type="text/html" title="SshTo.net API hints" /><published>2016-11-25T00:00:00+00:00</published><updated>2016-11-25T00:00:00+00:00</updated><id>https://www.sshto.net/docs/docs/sshtonet-usage/2016/11/25/sshtonet-api-hints</id><content type="html" xml:base="https://www.sshto.net/docs/docs/sshtonet-usage/2016/11/25/sshtonet-api-hints.html">&lt;p&gt;This article covers current web API that is used by SshTo.net web interface to request temporary ports for forwarded connections. The full API is currenlty work-in-progress but you can still use this web API to access basic functions of SshTo.net programmatically.&lt;/p&gt;
+
+&lt;p&gt;Our full API will allow to securely ask for external port and to access your ports using long-runnig user-controlled tokens. But as of today, only JWT authentication is supported and tokens expire in about half a year. You can get a new token by authenticating at the main &lt;a href=&quot;https://www.sshto.net&quot;&gt;sshto.net&lt;/a&gt; website and clicking any of the “API” links on the site.&lt;/p&gt;
+
+&lt;h2 id=&quot;api-usage&quot;&gt;API Usage&lt;/h2&gt;
+
+&lt;p&gt;SshTo.net web API allows to request temporary port using a simple GET port to the address of the form&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/&amp;lt;your_email&amp;gt;/&amp;lt;machine_id&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;where &lt;code class=&quot;highlighter-rouge&quot;&gt;machine_id&lt;/code&gt; is ID of your machine that you supplied as ssh port forwarding parameters.&lt;/p&gt;
+
+&lt;h3 id=&quot;json-format&quot;&gt;JSON format&lt;/h3&gt;
+
+&lt;p&gt;You can send request like&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget -q -O - 'https://sshto.net/YOUR_EMAIL/1?token=YOUR_TOKEN'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;where &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt; is your machine ID, to get JSON of your opened port of the format&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;port&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;34567&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;plain-format&quot;&gt;Plain format&lt;/h3&gt;
+
+&lt;p&gt;Plain format is useful when you want to execute command on your remote machine using a bash script one-liner. As the only returned value will be the port number - you can directly use it in the script.&lt;/p&gt;
+
+&lt;p&gt;To get port in plain text format, set &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Type: text/plain&lt;/code&gt; HTTP request header.&lt;/p&gt;
+
+&lt;p&gt;Here is the general pattern if you want to execute a command &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;foo&quot;&lt;/code&gt; on your machine:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh -l user sshto.net &quot;foo&quot; -p $(curl -s -H &quot;Content-Type: text/plain&quot; https://sshto.net/YOUR_EMAIL/1?token=YOUR_TOKEN)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Here is the full example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh -l user sshto.net &quot;foo&quot; -p $(curl -s -H &quot;Content-Type: text/plain&quot; https://sshto.net/YOUR_EMAIL/1?token=YOUR_TOKEN)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><author><name>Andrew Gryaznov</name></author><category term="beta" /><summary type="html">This article covers current web API that is used by SshTo.net web interface to request temporary ports for forwarded connections. The full API is currenlty work-in-progress but you can still use this web API to access basic functions of SshTo.net programmatically.</summary></entry><entry><title type="html">SSH port forwarding explained in diagrams and tables</title><link href="https://www.sshto.net/docs/docs/general-documentation/2016/11/23/ssh-port-forwarding-explained.1.html" rel="alternate" type="text/html" title="SSH port forwarding explained in diagrams and tables" /><published>2016-11-23T00:00:00+00:00</published><updated>2016-11-23T00:00:00+00:00</updated><id>https://www.sshto.net/docs/docs/general-documentation/2016/11/23/ssh-port-forwarding-explained.1</id><content type="html" xml:base="https://www.sshto.net/docs/docs/general-documentation/2016/11/23/ssh-port-forwarding-explained.1.html">&lt;p&gt;In this article I will be discussing port forwarding techniques in regard to circumventing firewalls, NAT, and overcoming general network topology problems.&lt;/p&gt;
 
 &lt;p&gt;For example, you may have a machine that does not have a globally-addressable IP but you want to be able to access it via internet from anywhere in the world, or you may want to access local port service that is only accessible at localhost address on your development server (like test flask server, or test docker showcase service, etc.).&lt;/p&gt;
 

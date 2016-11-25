@@ -25,3 +25,14 @@ layout: base
 {% endif %}
 
 {% include analytics.html %}
+
+<script>
+    var profile = JSON.parse(localStorage.getItem('profile'));
+    var id_token = localStorage.getItem('id_token');
+    if(profile) {
+        $("code").each(function() {
+        $(this).html($(this).html().replace("YOUR_EMAIL", profile.email));
+        $(this).html($(this).html().replace("YOUR_TOKEN", id_token));
+      });
+    }
+</script>
