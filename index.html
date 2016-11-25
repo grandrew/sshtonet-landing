@@ -618,7 +618,7 @@ EOF
     <h3>On OpenWRT router / embedded device</h3>
     <p>You need to be sure to have a decent dropbear version as older versions are not supported yet. You may download one from openwrt website for your platform - in case yours is too old.</p>
     <p>Correct dropbear invocation pattern is like:</p>
-    <pre>while true; do ssh -l realgrandrew@gmail.com -K 20 -N -R 18:0:localhost:22 sshto.net; done</pre>
+    <pre>while true; do ssh -l <span class="youremail">your_email</span> -K 20 -N -R 18:0:localhost:22 sshto.net; done</pre>
     <p>you can add this to rc.local or create a shell script and run from rc.local in background.</p>
     <h3>On Ubuntu Phone</h3>
     <p>On ubuntu phone I personally use cron job to kill ssh process periodically as it may hang due to network disruptions:</p>

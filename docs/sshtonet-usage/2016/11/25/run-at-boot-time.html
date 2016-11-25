@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="beta"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/docs/favicon.png">
+    <title>SshTo.net API hints</title>
+    <meta name="description" content="Connect at boot time">
+    <link rel="canonical" href="https://www.sshto.net/docs/docs/sshtonet-usage/2016/11/25/run-at-boot-time.html" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css" rel="stylesheet"  />
+    <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/docs/css/main.css">
+	
+	<link rel="stylesheet" href="/docs/css/prism.css">
+	
+    <link rel="alternate" type="application/rss+xml" title="SshTo.net - blog from the experts of SSH port forwarding" href="/docs/feed.xml" />
+</head>
+
+<body>
+<header>
+<a href="/" class="top-logo"><img src="/docs/terminal_w.png"/></a>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="container"><a href="#" data-activates="nav-bar" class="button-collapse"><i class="material-icons">menu</i></a></div>
+            <ul class="right hide-on-med-and-down ">
+                
+                <li><a href="/docs/">Home</a></li>
+                
+                <li><a href="/docs/categories.html">Categories</a></li>
+                
+                <li><a href="/docs/tags.html">Tags</a></li>
+                
+            </ul>
+            <ul class="side-nav" id="nav-bar">
+                
+                <li><a href="/docs/">Home</a></li>
+                
+                <li><a href="/docs/categories.html">Categories</a></li>
+                
+                <li><a href="/docs/tags.html">Tags</a></li>
+                
+            </ul>
+        </div>
+    </nav>
+</header>
+<br/>
+<main>
+    <div class="container">
+        
+<div class="row">
+<h2>SshTo.net API hints</h2>
+<div class="valign-wrapper">
+<div class="author"><img src="/docsterminal_ico.png" class="circle responsive-img"></div><h5>Andrew Gryaznov - <a href="/docs/categories/sshtonet-usage">sshtonet-usage</a> - 11/25/2016</h5>
+</div>
+    
+    
+    <a href="/docs/tags/beta"><div class="chip waves-effect waves-red">beta</div></a>
+    
+    
+</div>
+<div class="row">
+<h2 id="connect-at-boot-time">Connect at boot time</h2>
+
+<p>First of all, you need to accept the sshto.net host key. Do this by running the basic port forward code once in the terminal:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ssh -l YOUR_EMAIL -N -R 1:0:localhost:22 sshto.net
+</code></pre>
+</div>
+
+<p>and answer <code class="highlighter-rouge">yes</code> to accept the key. Other clients, like <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a> may provide slightly different interface for that.</p>
+
+<h2 id="on-linux-rpi-ubuntu-bsd-unix">On Linux, RPI, Ubuntu, *bsd, unix</h2>
+
+<p>Use this one-liner to launch it in background with automatic reconnects:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>while true; do ssh -l YOUR_EMAIL -NR 1:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net; done &amp;
+</code></pre>
+</div>
+
+<p>On ubuntu, just paste this code into console to automatically add it to rc.local:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sed -i "/exit 0/d" /etc/rc.local # remove exit 0
+cat &gt;&gt; /etc/rc.local &amp;lt;&amp;lt; 'EOF'
+while true; do
+ssh -l YOUR_EMAIL -NR 1:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net
+done &amp; # fork to background
+exit 0
+EOF
+</code></pre>
+</div>
+
+<h2 id="on-mac">On Mac</h2>
+
+<p>In Automator app, create a new application with “Run Shell Script” task with the code as in ubuntu version, save. Then, in System Preferences -&gt; Users &amp; Groups in your “Login Items” add the new automator app and choose “hide”. Reboot. See more details <a href="http://stackoverflow.com/questions/22842016/launch-shell-script-on-login-in-mac-os-os-x">here</a>.</p>
+
+<h2 id="on-openwrt-router--embedded-device">On OpenWRT router / embedded device</h2>
+
+<p>You need to be sure to have a decent dropbear version as older versions are not supported yet. You may download one from openwrt website for your platform - in case yours is too old.</p>
+
+<p>Correct dropbear invocation pattern is like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>while true; do ssh -l YOUR_EMAIL -K 20 -N -R 18:0:localhost:22 sshto.net; done
+</code></pre>
+</div>
+
+<p>you can add this to rc.local or create a shell script and run from rc.local in background.</p>
+
+<h2 id="on-ubuntu-phone">On Ubuntu Phone</h2>
+
+<p>On ubuntu phone I personally use cron job to kill ssh process periodically as it may hang due to network disruptions:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>0 * * * * pkill -f sshto.net
+</code></pre>
+</div>
+
+<h2 id="on-windows">On Windows</h2>
+
+<p>SSH on windows is not yet fully supported, see more info <a href="https://blogs.msdn.microsoft.com/powershell/2015/06/03/looking-forward-microsoft-support-for-secure-shell-ssh/">here</a> and <a href="https://blogs.msdn.microsoft.com/powershell/2015/10/19/openssh-for-windows-update/">here</a>. However, you can forward PowerShell remote ports 5985 and 5986 from your Windows CORE IoT, Windows Server or PC using <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a> or easy software listed <a href="http://superuser.com/questions/235395/automatic-ssh-tunneling-from-windows">here</a></p>
+
+<p>Please send any suggestions to <a href="mailto:info@sshto.net">info@sshto.net</a> or write reports to <a href="https://github.com/sshtonet/sshtonet/issues">https://github.com/sshtonet/sshtonet/issues</a>.</p>
+
+
+</div>
+
+
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'sshtonet';
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+
+	<!-- Google Analytics -->
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-87587271-1', 'auto');
+  ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+
+<script>
+    var profile = JSON.parse(localStorage.getItem('profile'));
+    var id_token = localStorage.getItem('id_token');
+    if(profile) {
+        $("code").each(function() {
+        $(this).html($(this).html().replace("YOUR_EMAIL", profile.email));
+        $(this).html($(this).html().replace("YOUR_TOKEN", id_token));
+      });
+    }
+</script>
+    </div>
+</main>
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">SshTo.net - zero-effort SSH port forwarding service</h5>
+                <p class="grey-text text-lighten-4">Remotely access your IoT, Ubuntu, Mac, Router, Raspberry PI, Servers .. anything from anywhere in the world using standard SSH.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Contacts</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="mailto:info@sshto.net">info@sshto.net</a></li>
+                    <li><a class="grey-text text-lighten-3" href="/"></a>&nbsp;</li>
+                    <li><a class="grey-text text-lighten-3" href="/">Sign up</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2016 JSX Exchange
+            <a class="grey-text text-lighten-4 right" href="http://jsx.exchange">by jsx.exchange</a>
+        </div>
+    </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery_lazyload/1.9.7/jquery.lazyload.min.js" defer></script>
+<script src="/docs/js/load.js" defer></script>
+
+<script src="/docs/js/prism.js"></script>
+
+</body>
+</html>
