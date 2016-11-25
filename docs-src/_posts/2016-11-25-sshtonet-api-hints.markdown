@@ -42,8 +42,4 @@ Here is the general pattern if you want to execute a command `"foo"` on your mac
 
     ssh -l user sshto.net "foo" -p $(curl -s -H "Content-Type: text/plain" https://sshto.net/YOUR_EMAIL/1?token=YOUR_TOKEN)
     
-Here is the full example:
-
-    ssh -l user sshto.net "foo" -p $(curl -s -H "Content-Type: text/plain" https://sshto.net/YOUR_EMAIL/1?token=YOUR_TOKEN)
-
 [sshtonet]: https://www.sshto.net
