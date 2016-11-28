@@ -97,7 +97,7 @@ $(document).ready(function() {
   };
   
   $(".termeditable").blur(save_card);
-  $(".termeditable").bind("enterKey", save_card);
+  $(".termeditable").bind("enterKey", function(e) { e.preventDefault(); save_card(e);});
   
   
   lock.on("authenticated", function(authResult) {
