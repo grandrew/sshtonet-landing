@@ -202,13 +202,13 @@
                 <div class="content bullet-holder">
                   <div class="bullet -gutter -bg-success -text">2</div>
                   <div style="display: none;" id="typed-strings">
-                    <p><span>ssh -l <span class="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</span><span class="terminal-comment signinfirst"> # sign in to activate your email first</span></p>
+                    <p><span>ssh -l <span class="youremail">your@email.com</span> -N -R <span class="machnr">1</span>:0:localhost:22 sshto.net</span><span class="terminal-comment signinfirst"> # sign in to activate your email first</span></p>
                   </div>
-                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</span><span class="terminal-comment signinfirst"> # sign in to activate your email first</span></span>
+                  <span class="code" id="typed" style="width: 200px"><span>ssh -l <span id="youremail">your@email.com</span> -N -R <span class="machnr">1</span>:0:localhost:22 sshto.net</span><span class="terminal-comment signinfirst"> # sign in to activate your email first</span></span>
                 </div>
                 <div class="helptext bullet-holder">
                   <div class="bullet -image-info -gutter-mid"></div>
-                  No password. No key. Just copy the line of code into your terminal to activate your remote shell. The <span style="font-weight: bold">-R &nbsp;1:</span> stands for machine number <span style="font-weight: bold">1</span>. Use 2,3,4... for each of your hosts. (This is a standard ssh feature called <a style="" href="http://unix.stackexchange.com/questions/46235/how-does-reverse-ssh-tunneling-work">reverse port forwarding</a>). Make sure you add this to <a href="#boot_time" rel="modal:open">launch at boot time</a>.
+                  No password. No key. Just copy the line of code into your terminal to activate your remote shell. The <span style="font-weight: bold">-R &nbsp;<span class="machnr">1</span>:</span> stands for machine number <span style="font-weight: bold">1</span>. Use 2,3,4... for each of your hosts. (This is a standard ssh feature called <a style="" href="http://unix.stackexchange.com/questions/46235/how-does-reverse-ssh-tunneling-work">reverse port forwarding</a>). Make sure you add this to <a href="#boot_time" rel="modal:open">launch at boot time</a>.
                 </div>
                 <div class="buttons">
                   <a href="" rel="nofollow" class="button text-button -submit">
@@ -661,6 +661,7 @@ if(profile) {
     $(".signinfirst").text("");
     $(".youremail").text(profile.email);
 }
+
 </script>
 
 </body>

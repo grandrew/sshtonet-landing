@@ -183,6 +183,7 @@ $(document).ready(function() {
           dataType: "jsonp",
           success: function( response ) {
             var mid;
+            var max_nr = 0;
             console.log( response ); // server response
             for(var i=0; i<response.IDs.length; i++) {
               // $("#comps").append(' <a href="#" rel="nofollow" class="button text-button -secondary" id="'+response.IDs[i]+'comp" style="font-family: monospace;"> '+response.IDs[i]+' </a>');
@@ -190,6 +191,7 @@ $(document).ready(function() {
               var card_name = "name_edit_me";
               var card_user = "user_edit_me";
               var meta_id = mid+"comp";
+              if(mid > max_nr) max_nr = mid;
               if(document.machine_cards && meta_id in document.machine_cards) {
                 card_name = document.machine_cards[meta_id].name;
                 card_user = document.machine_cards[meta_id].user;
@@ -199,6 +201,7 @@ $(document).ready(function() {
               var fc = create_get_port_call(mid);
               $("#"+mid+"comp").click(fc);
             }
+            $(".machnr").text(max_nr+1);
           }
         });
   };
