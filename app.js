@@ -183,7 +183,7 @@ $(document).ready(function() {
           dataType: "jsonp",
           success: function( response ) {
             var mid;
-            var max_nr = 0;
+            var max_nr = 1;
             console.log( response ); // server response
             for(var i=0; i<response.IDs.length; i++) {
               // $("#comps").append(' <a href="#" rel="nofollow" class="button text-button -secondary" id="'+response.IDs[i]+'comp" style="font-family: monospace;"> '+response.IDs[i]+' </a>');
