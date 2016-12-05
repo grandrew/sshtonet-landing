@@ -598,16 +598,16 @@
 <div id="boot_time" style="display:none;">
     <h1>Connect at boot time</h1><p>
     First of all, you need to accept the sshto.net host key. Do this by running the basic port forward code once in the terminal:
-    <pre>ssh -l <span class="youremail">your@email.com</span> -N -R 1:0:localhost:22 sshto.net</pre>and answer "yes" to accept the key. Other clients, like <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a> may provide slightly different interface for that.<br/></p>
+    <pre>ssh -l <span class="youremail">your@email.com</span> -N -R <span class="machnr">1</span>:0:localhost:22 sshto.net</pre>and answer "yes" to accept the key. Other clients, like <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a> may provide slightly different interface for that.<br/></p>
     <h3>On Linux, RPI, Ubuntu, *bsd, unix</h3>
     Use this one-liner to launch it in background with automatic reconnects:
-    <pre>while true; do ssh -l <span class="youremail">your_email</span> -NR 1:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net; done &</pre>
+    <pre>while true; do ssh -l <span class="youremail">your_email</span> -NR <span class="machnr">1</span>:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net; done &</pre>
     On ubuntu, just paste this code into console to automatically add it to rc.local:
     <pre>
 sed -i "/exit 0/d" /etc/rc.local # remove exit 0
 cat >> /etc/rc.local &lt;&lt; 'EOF'
 while true; do
-ssh -l <span class="youremail">your_email</span> -NR 1:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net
+ssh -l <span class="youremail">your_email</span> -NR <span class="machnr">1</span>:0:localhost:22 -o ServerAliveInterval=60 -o ServerAliveCountMax=2 -o ConnectTimeout=30 -o TCPKeepAlive=yes sshto.net
 done & # fork to background
 exit 0
 EOF
