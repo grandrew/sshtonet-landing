@@ -3446,20 +3446,6 @@ a.text-danger:hover {
     padding-top: 2em
 }
 
-/*@media (min-width: 768px) {*/
-/*    .terminal-body.-floating-pi:after {*/
-/*        background-image: url("../img/home/raspberry-pi-real.264f9534fb12.png");*/
-/*        background-size: 100% 100%;*/
-/*        content: '';*/
-/*        display: block;*/
-/*        height: 300px;*/
-/*        position: absolute;*/
-/*        right: -1em;*/
-/*        top: -5em;*/
-/*        width: 247px*/
-/*    }*/
-/*}*/
-
 @media (min-width: 768px) {
     .terminal-body.-floating-pi>.buttons,
     .terminal-body.-floating-pi>.content,
@@ -3636,8 +3622,6 @@ a.text-danger:hover {
 }
 
 .block-grid.-large:after {
-    /*background-color: #f3c409;*/
-    /*background-image: url("../img/home/plus.01faf6be618d.png");*/
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 1.25em 1.25em;
